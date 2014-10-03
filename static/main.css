@@ -1,0 +1,49 @@
+body {
+    width:100%;
+    height:100%;
+    background-color: #377ba8;
+    color: #eeeeee;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+}
+
+td, tr {
+    /*align-content: center;*/
+    border: 1px solid black;
+    margin: 0 auto;
+    padding: 0 0 0 0;
+}
+
+/*h2 {
+   margin: auto;
+   padding-top: 3%;
+   padding-left: 20%;
+   padding-bottom: 3%;
+}*/
+
+table {
+    width:98%;
+    text-align:center;
+    border: 1px solid black;
+    border-collapse:collapse
+}
+
+#app_name {
+    /*border: none;*/
+    width:100%;
+    /*text-align: center;*/
+    background-image: url(bird.jpg);
+    /*background-size: cover;*/
+}
+
+.pagination {
+    text-align: center;
+}
+
+.highcharts-container {
+    margin: 0 auto;
+}
+
+input, textarea {
+    padding-top: 2%;
+    width: 100%;
+}

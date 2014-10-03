@@ -1,0 +1,95 @@
+<!doctype html>
+<html style="position:relative; width:100%; min-height:100%;">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href="/static/material/css-compiled/ripples.min.css" rel="stylesheet">
+    <link href="/static/material/css-compiled/material-wfont.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+</head>
+
+<body style="width:100%; height:100%; margin-bottom: 60px;">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href='{{ url_for("hello_world") }}'>Eledelphe</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li id="view_li" class="active"><a href='{{ url_for("hello_world") }}'>View experiment</a></li>
+                <li id="add_li"><a href='{{ url_for("save_experiment_form") }}'>Add experiment</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" role="form" method="POST" action="/logout">
+                <button style="margin-top: -10px;" type="submit" class="btn btn-success btn-xs">Log out</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+
+    <div class="jumbotron" style="padding-top:5%; padding-bottom:3%; background-color:#5bc0de;"> <!-- background-image: url(/static/texture.jpg); background-size:cover;"> <!---color:#5bc0de;">-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h2 style="color:black;">Omics Services analysis parameters data storage</h2>
+                </div>
+                <div class="col-sm-3">
+                    <p style="border: solid 1px;text-align:center; padding: 20px 0 20px 0; color: white">Omics Services</p>
+                    <!--<img style="padding-top:20px;" src="/static/omics-services-small.png"/>-->
+                </div>
+            </div>
+            <p class="lead" style="color:white;">Metabolomics, Proteomics, Genomics, Statistics</p>
+            <!--<p><a class="btn btn-primary btn-lg" role="button">Show all experiments</a></p>-->
+        </div>
+    </div>
+
+    <div style="width:90%" class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px; position:fixed;" class="nav nav-pills nav-stacked">
+                    <li ><h3 style="color:black">Menu</h3><hr style="border: solid 1px; border-color: #000000;"></li>
+                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Save exp params</a></li>
+                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>View exp</a></li>
+                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Launch exp</a></li>
+                    <li><a href='{{ url_for("show_jobs") }}'style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Jobs</a></li>
+                    <li style="color:white"><a class="btn btn-warning">Hide</a></li>
+                </ul>
+
+            </div>
+            <div class="col-md-10">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="/static/material/scripts/ripples.js"></script>
+    <script src="/static/material/scripts/material.js"></script>
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+<footer>
+    <div style="background-color:darkslategrey; height:60px; color:white; bottom:0; position:absolute; width:100%;" class="text-center">
+        <p style="padding-top: 20px">Copyright omics services 2014</p>
+    </div>
+</footer>
+<!--<footer class="col-md-12 text-center" style="position: absolute; bottom: 0;width: 100%; height: 60px;background-color: darkslategrey; color:white;">
+    <p style="padding-top: 20px">Copyright omics services 2014</p>
+</footer>-->
+
+</html>

@@ -1,0 +1,270 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h3>Current experiments </h3>
+
+<hr style="border: solid 1px">
+
+<div style="width:auto;margin:auto;text-align: center;">
+    <table class="table table-bordered table-stripped table-hover">
+     <TR style="background-color: cornflowerblue;" >
+         <TH> Title </TH>
+         <TH> Client </TH>
+         <TH> Date </TH>
+         <th> Description</th>
+         <TH> Software </TH>
+         <TH> Version </TH>
+         <TH> Parameters </TH>
+     </TR>
+    {% for experiment in experiments %}
+        <TR>
+        <TD>{{ experiment.title }}</TD>
+        <TD>{{ experiment.organization }}</TD>
+        <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
+        <TD>{{ experiment.description }}</TD>
+        <TD>{{ experiment.software }}</TD>
+        <TD>{{ experiment.version }}</TD>
+        <TD><a href='{{ url_for("show_parameters", experiment_id=experiment.id) }}'>{{ experiment.title }}</a></TD>
+        </TR>
+    {% endfor %}
+    </TABLE>
+</div>
+
+<div style="padding-bottom: 50px;"class=" container">
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <ul style="padding-left: 20%;" class="pagination pagination-sm">
+                {%- for page in pagination.iter_pages() %}
+                    {% if page %}
+                        {% if page != pagination.page %}
+                            <li><a href='{{ url_for("hello_world", page=page) }}'>{{ page }}</a></li>
+                        {% else %}
+                            <li><a><strong>{{ page }}</strong></a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><span class=ellipsis>…</span></li>
+                    {% endif %}
+                {%- endfor %}
+
+                {% if pagination.has_next %}
+                    <li><a href='{{ url_for("hello_world", page=pagination.page + 1) }}'>Next &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+         <div class="col-md-4">
+
+        </div>
+    </div>
+ </div>
+
+
+<h3>Main statistics <span class="well-material-grey">total experiments: <span style="color:white;">198</span> total features: <span style="color:white;">115616</span></span></h3>
+<hr style="border: solid 1px">
+
+<div style="padding: 20px 0 60px 0;" class="container">
+    <div style="padding-bottom: 20px" class="row">
+        <div class="col-md-6">
+            <h3>3 best organizations</h3>
+        </div>
+        <div class="col-md-6">
+            <h3>#Features evolution</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <div class="row-action-primary">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </div>
+                    <div class="row-content">
+                        <div class="least-content">15m</div>
+                        <h4 class="list-group-item-heading">Tile with a label</h4>
+                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                    </div>
+                </div>
+
+                <div class="list-group-separator"></div>
+
+                <div class="list-group-item">
+                    <div class="row-action-primary">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </div>
+                    <div class="row-content">
+                        <div class="least-content">10m</div>
+                        <h4 class="list-group-item-heading">Tile with a label</h4>
+                        <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                    </div>
+                </div>
+
+                <div class="list-group-separator"></div>
+
+                <div class="list-group-item">
+                    <div class="row-action-primary">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </div>
+                    <div class="row-content">
+                        <div class="least-content">8m</div>
+                        <h4 class="list-group-item-heading">Tile with a label</h4>
+                        <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                    </div>
+                </div>
+
+                <div class="list-group-separator"></div>
+
+            </div>
+        </div>
+        <div id="test_h" class="col-md-6" style="width:600px; height:250px;" >
+        </div>
+        </div>
+
+        <div style="padding-top: 50px;" class="row">
+
+            <div id="test_g" class="col-md-6" style="width:600px; height:300px;" >
+                <h3 style="padding-bottom: 20px;">3 best softwares</h3>
+            </div>
+
+            <div class="col-md-6">
+                <h3 style="padding-bottom: 20px;">Experiments type</h3>
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">15m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+                            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">10m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">8m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<script type="text/javascript">
+    window.onload = function() {
+        console.log("holaa");
+        var container_id = "#test_h";
+        $(container_id).highcharts({
+              title: {text: 'Nb features',
+                        x: -20 },
+
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Intensity (°C)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [{
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'New York',
+            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        }, {
+            name: 'Berlin',
+            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+        }, {
+            name: 'London',
+            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        }]
+        });
+
+
+    $('#test_g').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+        title: {
+            text: 'best softwares'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            data: [
+                ['Firefox',   45.0],
+                ['IE',       26.8],
+                {
+                    name: 'Chrome',
+                    y: 12.8,
+                    sliced: true,
+                    selected: true
+                },
+                ['Safari',    8.5],
+                ['Opera',     6.2],
+                ['Others',   0.7]
+            ]
+        }]
+    });
+    };
+
+</script>
+{% endblock %}
