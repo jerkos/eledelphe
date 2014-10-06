@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>Experiments metadata</h3>
+                    <hr style="border: solid 1px;">
+                    <div class="text-center">
+                        <form class="form-horizontal" role="form" method="POST" action="/save_experiment" enctype=multipart/form-data>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="organization">Organization:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="organization" id="organization">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3  control-label" for="title">Title:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="title" id="title" placeholder="experiment#0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="title">Date:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="date" id="date" type="date">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Description:</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" name="description" placeholder="Metabolomic experiment"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Software:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="software" placeholder="XCMS (R package)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Version:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="version" placeholder="None">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Parameters (script):</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control floating-label" placeholder="Browse...">
+                                    <input name="parameters" type="file">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                     <h3>Annotations parameters</h3>
+                    <hr style="border: solid 1px;">
+                    <!--<div class="text-center">-->
+                        <form style="width:100%;" class="form-horizontal" role="form" method="POST" action="/save_experiment" enctype=multipart/form-data>
+                            <div class="form-group">
+                                <label class="col-sm-3  control-label">peaklist:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control floating-label" placeholder="Browse...">
+                                    <input name="parameters" type="file">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3  control-label">m/z tolerance:</label>
+                                <div class="col-sm-9">
+                                    <input class="slider" type='range' name="mz_tol">
+                                    <div class="checkbox">
+                                        <label  class="col-sm-9 col-offset-3">
+                                            <input type="checkbox"> Direct Infustion experiment
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3  control-label">polarity:</label>
+                                <div class="col-sm-9">
+                                    <select id="polarity" class="form-control">
+                                    <option>positive</option>
+                                    <option>negative</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3  control-label">Adducts and fragments:</label>
+                                <div class="col-sm-9">
+                                    <select id="adducts" multiple class="form-control" size="26">
+                                        <optgroup label="fragments">
+                                            <option>Fragment [M+H2O],1,0,-18.01057</option>
+                                            <option>Fragment [M-H2O],1,0,18.01057</option>
+                                            <option>Fragment [M-CO],1,0,27.99492</option>
+                                            <option>Fragment [M-CO2],1,0,43.98983</option>
+                                            <option>Fragment [M-NH3],1,0,17.02655</option>
+                                            <option>Fragment [M-SO],1,0,47.96699</option>
+                                            <option>Fragment [M-SO2],1,0,63.9619</option>
+                                            <option>Fragment [M-SO3],1,0,79.95682</option>
+                                            <option>Fragment [M-H2SO4],1,0,97.96738</option>
+                                            <option>Fragment [M-H3PO4],1,0,97.9769</option>
+                                         </optgroup>
+                                        <optgroup label="adducts">
+                                            <option>[M+Na+],1,1,-21.98194</option>
+                                            <option>[M+K+],1,1,-37.95588</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-4"></label>
+                                <button class="col-sm-5 btn btn-primary" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    <!--</div>-->
+                </div>
+            </div>
+
+
+        </div>
+
+<script>
+    var pos_adducts = ["[M+Na+],1,1,-21.98194",
+                       "[M+K+],1,1,-37.95588"];
+    var neg_adducts = ["Adduct [M+Cl (35)],1,-1,-34.968853",
+                       "Adduct [M+Cl (37)]-,1,-1,-36.965903",
+                       "Adduct [M+HCOO]-,1,-1,-44.9982",
+                       "Adduct [M+CH3COO]-,1,-1,-59.01385"];
+
+
+    $('#polarity').change(function(e){
+        console.log($('#polarity').val());
+
+        var adds = $("#adducts optgroup[label='adducts']");
+        console.log(adds);
+        adds.children().remove().end();
+
+//        var optgroups = $('#adducts').find('optgroup') //.remove().end()
+//        var adducts = null;
+//        optgroups.each(function(index, gp) {
+//           if (gp.label == 'adducts') {
+//               adducts = gp;
+//               console.log(adducts.children);
+//               adducts.children.each(function(k, opt) {
+//                   console.log(opt);
+//                   adducts.remove(opt);
+//               }); //find('option').remove().end();
+//           }
+//        });
+
+        if ($('#polarity').val() =='negative') {
+            for (var i=0; i < neg_adducts.length; ++i) {
+                adds.append(new Option(neg_adducts[i], neg_adducts[i]))
+            }
+        } else {
+            for (var i=0; i < pos_adducts.length; ++i) {
+                adds.append(new Option(pos_adducts[i], pos_adducts[i]))
+            }
+        }
+
+    });
+</script>
+{% endblock %}

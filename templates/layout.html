@@ -10,6 +10,90 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+    <style>
+        .container-xs-height {
+            display:table;
+            padding-left:0px;
+            padding-right:0px;
+        }
+        .row-xs-height {
+            display:table-row;
+        }
+        .col-xs-height {
+            display:table-cell;
+            float:none;
+        }
+        @media (min-width: 768px) {
+            .container-sm-height {
+                display:table;
+                padding-left:0px;
+                padding-right:0px;
+            }
+            .row-sm-height {
+                display:table-row;
+            }
+            .col-sm-height {
+                display:table-cell;
+                float:none;
+            }
+        }
+        @media (min-width: 992px) {
+            .container-md-height {
+                display:table;
+                padding-left:0px;
+                padding-right:0px;
+            }
+            .row-md-height {
+                display:table-row;
+            }
+            .col-md-height {
+                display:table-cell;
+                float:none;
+            }
+        }
+        @media (min-width: 1200px) {
+            .container-lg-height {
+                display:table;
+                padding-left:0px;
+                padding-right:0px;
+            }
+            .row-lg-height {
+                display:table-row;
+            }
+            .col-lg-height {
+                display:table-cell;
+                float:none;
+            }
+        }
+        /* vertical alignment styles */
+        .col-top {
+            vertical-align:top;
+        }
+        .col-middle {
+            vertical-align:middle;
+        }
+        .col-bottom {
+            vertical-align:bottom;
+        }
+
+        #menu {
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+
+        #menu ul li a {
+            color:lightgrey;
+        }
+
+        #menu ul li a:hover {
+            color:black;
+        }
+
+
+    </style>
 </head>
 
 <body style="width:100%; height:100%; margin-bottom: 60px;">
@@ -30,6 +114,7 @@
                 <li id="add_li"><a href='{{ url_for("save_experiment_form") }}'>Add experiment</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="form" method="POST" action="/logout">
+                <button style="margin-top: -10px;" id="toggle_menu" class="btn btn-xs btn-primary">Show menu</button>
                 <button style="margin-top: -10px;" type="submit" class="btn btn-success btn-xs">Log out</button>
             </form>
         </div><!--/.navbar-collapse -->
@@ -53,20 +138,57 @@
         </div>
     </div>
 
-    <div style="width:90%" class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px; position:fixed;" class="nav nav-pills nav-stacked">
-                    <li ><h3 style="color:black">Menu</h3><hr style="border: solid 1px; border-color: #000000;"></li>
-                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Save exp params</a></li>
-                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>View exp</a></li>
-                    <li><a style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Launch exp</a></li>
-                    <li><a href='{{ url_for("show_jobs") }}'style="color:black"><span style="color:black" class="btn btn-lg glyphicon glyphicon-off"></span>Jobs</a></li>
-                    <li style="color:white"><a class="btn btn-warning">Hide</a></li>
+    <div style="width:98%" class="container container-xs-height">
+        <div class="row row-xs-height">
+            <div id="menu" style=" background-color: darkslategrey; border-radius: 10px; opacity:1.0; border-right: solid 5px; border-color: white;" class="col-md-2 col-xs-height">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <h3 style="color:forestgreen">Menu</h3><hr style="border: solid 1px; border-color: forestgreen;">
+                    </li>
+
+                    <li>
+                        <a href='#' style="padding-bottom: 20px;"> Hello <strong>{{ login.upper() }}.</strong></a>
+
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('launch_experiment') }}"><i style="color:black" class="glyphicon glyphicon-off"></i> Launch exp</a>
+                    </li>
+
+                    <li>
+                        <a><i style="color:black" class="glyphicon glyphicon-off"></i> View exp</a>
+                    </li>
+                    <li>
+                        <a><i style="color:black" class="glyphicon glyphicon-off"></i> Edit params</a>
+                    </li>
+                    <li>
+                        <a href='{{ url_for("show_jobs") }}'><i style="color:black" class="glyphicon glyphicon-off"></i> Jobs</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a class="btn btn-warning">Hide</a>-->
+                    <!--</li>-->
+
+                    <li style="padding-top: 50px;">
+                        <h3 style="color:forestgreen">News</h3><hr style="border: solid 1px; border-color: forestgreen;">
+                    </li>
+
+                    <li><a type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><strong>Eledelphe</strong> version 0.0.1</a></li>
+                    <li><a href="http://omics-services.com">Visit us at omics-services.com</a></li>
                 </ul>
+                <div style="padding-top: 50px;" class="row">
+                    <div class="col-xs-4">
+                        <img style="max-width: 70px" src="/static/email.png" />
+                    </div>
+                    <div class="col-xs-4">
+                        <img style="max-width: 70px" src="/static/linkedin.png">
+                    </div>
+                    <div class="col-xs-4">
+                        <img style="max-width: 70px" src="/static/twitter.png" />
+                    </div>
+                </div>
 
             </div>
-            <div class="col-md-10">
+            <div class="col-md-10 col-xs-height">
                 {% block body %}
                 {% endblock %}
             </div>
@@ -74,6 +196,18 @@
     </div>
 
 
+    <script>
+        $('#toggle_menu').click(function(e) {
+            e.preventDefault();
+            var menu = $('#menu');
+            if (menu.css('opacity') == 1.0) {
+                menu.css('opacity', 0.0);
+            } else {
+                menu.css('opacity', 1.0);
+            }
+        });
+
+    </script>
 
     <script src="/static/material/scripts/ripples.js"></script>
     <script src="/static/material/scripts/material.js"></script>

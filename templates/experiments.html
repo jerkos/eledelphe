@@ -6,27 +6,31 @@
 <hr style="border: solid 1px">
 
 <div style="width:auto;margin:auto;text-align: center;">
-    <table class="table table-bordered table-stripped table-hover">
-     <TR style="background-color: cornflowerblue;" >
-         <TH> Title </TH>
-         <TH> Client </TH>
-         <TH> Date </TH>
-         <th> Description</th>
-         <TH> Software </TH>
-         <TH> Version </TH>
-         <TH> Parameters </TH>
-     </TR>
-    {% for experiment in experiments %}
-        <TR>
-        <TD>{{ experiment.title }}</TD>
-        <TD>{{ experiment.organization }}</TD>
-        <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
-        <TD>{{ experiment.description }}</TD>
-        <TD>{{ experiment.software }}</TD>
-        <TD>{{ experiment.version }}</TD>
-        <TD><a href='{{ url_for("show_parameters", experiment_id=experiment.id) }}'>{{ experiment.title }}</a></TD>
-        </TR>
-    {% endfor %}
+    <table style="background-color: white" class="table table-bordered table-stripped table-hover">
+        <thead>
+             <TR style="background-color: cornflowerblue;" >
+                 <TH> Title </TH>
+                 <TH> Client </TH>
+                 <TH> Date </TH>
+                 <th> Description</th>
+                 <TH> Software </TH>
+                 <TH> Version </TH>
+                 <TH> Parameters </TH>
+             </TR>
+        </thead>
+        <tbody>
+            {% for experiment in experiments %}
+                <TR>
+                <TD>{{ experiment.title }}</TD>
+                <TD>{{ experiment.organization }}</TD>
+                <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
+                <TD>{{ experiment.description }}</TD>
+                <TD>{{ experiment.software }}</TD>
+                <TD>{{ experiment.version }}</TD>
+                <TD><a href='{{ url_for("show_parameters", experiment_id=experiment.id) }}'>{{ experiment.title }}</a></TD>
+                </TR>
+            {% endfor %}
+        </tbody>
     </TABLE>
 </div>
 
@@ -65,114 +69,124 @@
 <hr style="border: solid 1px">
 
 <div style="padding: 20px 0 60px 0;" class="container">
-    <div style="padding-bottom: 20px" class="row">
-        <div class="col-md-6">
-            <h3>3 best organizations</h3>
+
+    <div class="row ">
+        <div class="col-xs-6 ">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>3 best organizations</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">15m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                            </div>
+                        </div>
+
+                        <div class="list-group-separator"></div>
+
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">10m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                            </div>
+                        </div>
+
+                        <div class="list-group-separator"></div>
+
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">8m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                            </div>
+                        </div>
+
+                        <div class="list-group-separator"></div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-6">
-            <h3>#Features evolution</h3>
+
+        <div id="test_h" class="col-xs-6 ">
         </div>
+
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="glyphicon glyphicon-upload"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">15m</div>
-                        <h4 class="list-group-item-heading">Tile with a label</h4>
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
-                    </div>
-                </div>
+    <div style="padding-top: 50px;" class="row ">
 
-                <div class="list-group-separator"></div>
-
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="glyphicon glyphicon-upload"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">10m</div>
-                        <h4 class="list-group-item-heading">Tile with a label</h4>
-                        <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                    </div>
-                </div>
-
-                <div class="list-group-separator"></div>
-
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="glyphicon glyphicon-upload"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">8m</div>
-                        <h4 class="list-group-item-heading">Tile with a label</h4>
-                        <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                    </div>
-                </div>
-
-                <div class="list-group-separator"></div>
-
-            </div>
-        </div>
-        <div id="test_h" class="col-md-6" style="width:600px; height:250px;" >
-        </div>
+        <div id="test_g" class="col-xs-6 " >
         </div>
 
-        <div style="padding-top: 50px;" class="row">
+        <div class="col-xs-6 ">
+            <div class="panel panel-primary">
 
-            <div id="test_g" class="col-md-6" style="width:600px; height:300px;" >
-                <h3 style="padding-bottom: 20px;">3 best softwares</h3>
-            </div>
+                <div class="panel-heading">
+                    <h3 style="padding-bottom: 20px;">Experiments type</h3>
+                </div>
 
-            <div class="col-md-6">
-                <h3 style="padding-bottom: 20px;">Experiments type</h3>
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <div class="row-action-primary">
-                            <i class="glyphicon glyphicon-upload"></i>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">15m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                            </div>
                         </div>
-                        <div class="row-content">
-                            <div class="least-content">15m</div>
-                            <h4 class="list-group-item-heading">Tile with a label</h4>
-                            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+
+                        <div class="list-group-separator"></div>
+
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload glyphicon-success"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">10m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                            </div>
                         </div>
+
+                        <div class="list-group-separator"></div>
+
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="glyphicon glyphicon-upload"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">8m</div>
+                                <h4 class="list-group-item-heading">Tile with a label</h4>
+                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                            </div>
+                        </div>
+
+                        <div class="list-group-separator"></div>
+
                     </div>
-
-                    <div class="list-group-separator"></div>
-
-                    <div class="list-group-item">
-                        <div class="row-action-primary">
-                            <i class="glyphicon glyphicon-upload"></i>
-                        </div>
-                        <div class="row-content">
-                            <div class="least-content">10m</div>
-                            <h4 class="list-group-item-heading">Tile with a label</h4>
-                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                        </div>
-                    </div>
-
-                    <div class="list-group-separator"></div>
-
-                    <div class="list-group-item">
-                        <div class="row-action-primary">
-                            <i class="glyphicon glyphicon-upload"></i>
-                        </div>
-                        <div class="row-content">
-                            <div class="least-content">8m</div>
-                            <h4 class="list-group-item-heading">Tile with a label</h4>
-                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                        </div>
-                    </div>
-
-                    <div class="list-group-separator"></div>
-
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 

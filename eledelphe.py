@@ -62,6 +62,7 @@ def hello():
             error = 'Invalid password'
         else:
             session['logged_in'] = True
+            session['username'] = request.form['username']
             flash('You were logged in !!!')
             return redirect(url_for('hello_world'))
     return render_template('login.html', error=error)
@@ -82,7 +83,7 @@ def hello_world(page):
         abort(401)
 
     paginator = Pagination(MetabolomicExperiment.objects, page=page, per_page=PER_PAGE)
-    return render_template("experiments.html", experiments=paginator.items, pagination=paginator)
+    return render_template("experiments.html", experiments=paginator.items, pagination=paginator, login=session['username'])
 
 # @app.route('/experiment/<int:experiment_id>/<int:page>')
 # def get_experiment(experiment_id, page=1):
@@ -101,6 +102,10 @@ def hello_world(page):
 
 @app.route('/save_experiment', methods=['POST'])
 def save_experiment():
+    """
+    upload a file and save it using its experiment id
+    @return:
+    """
     print "hello"
     organization, title, date, \
     description, software, version = request.form['organization'], request.form['title'], \
@@ -123,7 +128,12 @@ def save_experiment():
 
 @app.route('/show_parameters/<objectid:experiment_id>')
 def show_parameters(experiment_id):
-    experiment = MetabolomicExperiment.objects(id = experiment_id)
+    """
+    show script or parameters for an experiment
+    @param experiment_id:
+    @return:
+    """
+    experiment = MetabolomicExperiment.objects(id=experiment_id)
     print str(experiment_id)
     path = "".join(['./uploads/', str(experiment_id)])
     if not op.exists(path):
@@ -134,11 +144,25 @@ def show_parameters(experiment_id):
 
 @app.route('/save_experiment_form')
 def save_experiment_form():
-    return render_template('save_experiment.html')
+    """
+    @return: template form to save experiment metadata
+    """
+    return render_template('save_experiment.html', login=session['username'])
 
 @app.route('/show_jobs')
 def show_jobs():
-    return render_template('flower.html')
+    """iframe to flower celery admin panel"""
+    return render_template('flower.html',login=session['username'])
+
+
+@app.route('/launch_exp')
+def launch_experiment():
+    """
+    @return:
+    """
+    return render_template('launch_exp.html', login=session['username'])
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
