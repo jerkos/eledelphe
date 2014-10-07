@@ -2,44 +2,44 @@
 {% block body %}
 
 <h3>Current experiments </h3>
-
 <hr style="border: solid 1px">
 
-<div style="width:auto;margin:auto;text-align: center;">
-    <table style="background-color: white" class="table table-bordered table-stripped table-hover">
-        <thead>
-             <TR style="background-color: cornflowerblue;" >
-                 <TH> Title </TH>
-                 <TH> Client </TH>
-                 <TH> Date </TH>
-                 <th> Description</th>
-                 <TH> Software </TH>
-                 <TH> Version </TH>
-                 <TH> Parameters </TH>
-             </TR>
-        </thead>
-        <tbody>
-            {% for experiment in experiments %}
-                <TR>
-                <TD>{{ experiment.title }}</TD>
-                <TD>{{ experiment.organization }}</TD>
-                <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
-                <TD>{{ experiment.description }}</TD>
-                <TD>{{ experiment.software }}</TD>
-                <TD>{{ experiment.version }}</TD>
-                <TD><a href='{{ url_for("show_parameters", experiment_id=experiment.id) }}'>{{ experiment.title }}</a></TD>
-                </TR>
-            {% endfor %}
-        </tbody>
-    </TABLE>
-</div>
-
-<div style="padding-bottom: 50px;"class=" container">
+<div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-xs-12">
+            <table style="background-color: white; text-align: center;" class="table table-bordered table-stripped table-hover">
+                <thead>
+                     <TR style="background-color: cornflowerblue; color:white" >
+                         <TH> Title </TH>
+                         <TH> Client </TH>
+                         <TH> Date </TH>
+                         <th> Description</th>
+                         <TH> Software </TH>
+                         <TH> Version </TH>
+                         <!--<TH> Parameters </TH>-->
+                     </TR>
+                </thead>
+                <tbody>
+                    {% for experiment in experiments %}
+                        <TR>
+                        <TD>{{ experiment.title }}</TD>
+                        <TD>{{ experiment.organization }}</TD>
+                        <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
+                        <TD>{{ experiment.description }}</TD>
+                        <TD>{{ experiment.software }}</TD>
+                        <TD>{{ experiment.version }}</TD>
+                        </TR>
+                    {% endfor %}
+                </tbody>
+            </TABLE>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
 
         </div>
-        <div class="col-md-4">
+        <div class="col-xs-4">
             <ul style="padding-left: 20%;" class="pagination pagination-sm">
                 {%- for page in pagination.iter_pages() %}
                     {% if page %}
@@ -58,7 +58,7 @@
                 {% endif %}
             </ul>
         </div>
-         <div class="col-md-4">
+         <div class="col-xs-4">
 
         </div>
     </div>
@@ -70,8 +70,8 @@
 
 <div style="padding: 20px 0 60px 0;" class="container">
 
-    <div class="row ">
-        <div class="col-xs-6 ">
+    <div class="row">
+        <div class="col-xs-6">
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -124,17 +124,17 @@
 
         </div>
 
-        <div id="test_h" class="col-xs-6 ">
+        <div id="test_h" class="col-xs-6">
         </div>
 
     </div>
 
-    <div style="padding-top: 50px;" class="row ">
+    <div style="padding-top: 50px;" class="row">
 
-        <div id="test_g" class="col-xs-6 " >
+        <div id="test_g" class="col-xs-6" >
         </div>
 
-        <div class="col-xs-6 ">
+        <div class="col-xs-6">
             <div class="panel panel-primary">
 
                 <div class="panel-heading">

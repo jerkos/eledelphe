@@ -1,7 +1,10 @@
+#from __future__ import absolute_import
+
 import datetime
 from math import ceil
 import os
 import os.path as op
+
 from flask import Flask, render_template, redirect, url_for, request, session, flash, abort
 #from flask.ext.pymongo import PyMongo
 from mongoengine import Document, StringField, DateTimeField
@@ -12,14 +15,23 @@ from itsdangerous import base64_encode, base64_decode
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
+from model import MetabolomicsExperiment
+import tasks
+
 
 class ObjectIDConverter(BaseConverter):
+    """ Object"""
+
     def to_python(self, value):
+        """
+        """
         try:
             return ObjectId(base64_decode(value))
         except (InvalidId, ValueError, TypeError):
             raise ValidationError()
     def to_url(self, value):
+        """
+        """
         return base64_encode(value.binary)
 
 app = Flask(__name__)
@@ -28,22 +40,14 @@ app.name = "omicsservices"
 app.config.update(SECRET_KEY='development key',
                   USERNAME='admin',
                   PASSWORD='default')
+
 app.config['MONGODB_SETTINGS'] = {'db': 'omicsservices'}
+
 if not op.exists('./uploads'):
     os.mkdir('./uploads')
 app.config['UPLOAD_FOLDER'] = './uploads'
+
 db = MongoEngine(app)
-
-
-class MetabolomicExperiment(Document):
-    meta = {'collection': 'experiments'}
-
-    organization = StringField(required=True)
-    title = StringField(required=True)
-    date = DateTimeField(default=datetime.datetime.now)
-    description = StringField(required=False)
-    software = StringField(required=False)
-    version = StringField(required=False)
 
 
 PER_PAGE = 5
@@ -67,7 +71,7 @@ def hello():
             return redirect(url_for('hello_world'))
     return render_template('login.html', error=error)
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['POST', 'GET'])
 def goodbye():
     session.pop('logged_in', None)
     return redirect(url_for('hello'))
@@ -82,7 +86,7 @@ def hello_world(page):
     if not session.get('logged_in'):
         abort(401)
 
-    paginator = Pagination(MetabolomicExperiment.objects, page=page, per_page=PER_PAGE)
+    paginator = Pagination(MetabolomicsExperiment.objects, page=page, per_page=PER_PAGE)
     return render_template("experiments.html", experiments=paginator.items, pagination=paginator, login=session['username'])
 
 # @app.route('/experiment/<int:experiment_id>/<int:page>')
@@ -112,7 +116,7 @@ def save_experiment():
                                      request.form['date'], request.form['description'], \
                                      request.form['software'], request.form['version']
 
-    experiment = MetabolomicExperiment(organization=organization, title=title, date=date)
+    experiment = MetabolomicsExperiment(organization=organization, title=title, date=date)
     experiment.description = description
     experiment.software = software
     experiment.version = version
@@ -126,20 +130,20 @@ def save_experiment():
 
     return "<h1>file has been uploaded</h1>"
 
-@app.route('/show_parameters/<objectid:experiment_id>')
-def show_parameters(experiment_id):
-    """
-    show script or parameters for an experiment
-    @param experiment_id:
-    @return:
-    """
-    experiment = MetabolomicExperiment.objects(id=experiment_id)
-    print str(experiment_id)
-    path = "".join(['./uploads/', str(experiment_id)])
-    if not op.exists(path):
-        return abort(404)
-    text = open(path).read()
-    return render_template('parameters.html', experiment=experiment, text=text)
+# @app.route('/show_parameters/<objectid:experiment_id>')
+# def show_parameters(experiment_id):
+#     """
+#     show script or parameters for an experiment
+#     @param experiment_id:
+#     @return:
+#     """
+#     experiment = MetabolomicExperiment.objects(id=experiment_id)
+#     print str(experiment_id)
+#     path = "".join(['./uploads/', str(experiment_id)])
+#     if not op.exists(path):
+#         return abort(404)
+#     text = open(path).read()
+#     return render_template('parameters.html', experiment=experiment, text=text)
 
 
 @app.route('/save_experiment_form')
@@ -155,13 +159,31 @@ def show_jobs():
     return render_template('flower.html',login=session['username'])
 
 
-@app.route('/launch_exp')
+@app.route('/launch_exp', methods=['GET', 'POST'])
 def launch_experiment():
     """
     @return:
     """
-    return render_template('launch_exp.html', login=session['username'])
+    if request.method == 'GET':
+        return render_template('launch_exp.html', login=session['username'])
 
+    #handle post method
+    # organization, title, date, \
+    # description, software, version, parameters = request.form['organization'], request.form['title'], \
+    #                                  request.form['date'], request.form['description'], \
+    #                                  request.form['software'], request.form['version'], request['parameters']
+
+    f = request.files['peaklist']
+    print "file:", f
+    if f:
+        filename = secure_filename("".join(['pkl', str(datetime.datetime.now()), '.csv']))
+        f.save(op.join(app.config['UPLOAD_FOLDER'], filename))
+    else:
+        raise WindowsError("Error")
+    print request.form.getlist('adds')
+    tasks.annotate_and_save.delay(op.join(app.config['UPLOAD_FOLDER'], filename), request.form)
+
+    return redirect(url_for('hello_world'))
 
 
 if __name__ == '__main__':

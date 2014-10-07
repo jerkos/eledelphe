@@ -84,19 +84,47 @@
             transition: all 0.5s ease;
         }
 
+        #menu ul li {
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            border-radius: 0;
+            border: solid 1px white;
+            background-color:#bdbdbd;
+        }
+        /*#menu ul li {*/
+            /*border: 1px solid #ef6c00;*/
+        /*}*/
+
         #menu ul li a {
-            color:lightgrey;
+            color:black;
         }
 
+        /*#menu ul li a{*/
+            /*-webkit-transition: all 0.5s ease;*/
+            /*-moz-transition: all 0.5s ease;*/
+            /*-o-transition: all 0.5s ease;*/
+            /*transition: all 0.5s ease;*/
+        /*}*/
+
         #menu ul li a:hover {
-            color:black;
+            background-color: #9c27b0; /* #563D7C;*/
+            color: white;
+            border-radius: 0;
+            /*text-decoration: underline;*/
+            /*color:white;*/
+            /*background-color: #ef6c00;*/
+        }
+
+        .navbar-right a i:hover {
+            background-color: #563D7C;
         }
 
 
     </style>
 </head>
 
-<body style="width:100%; height:100%; margin-bottom: 60px;">
+<body style="width:100%; height:100%; margin-bottom: 120px; background-color: #f5f5f5" >
+<!--url('/static/trianglify-background.svg'); background-size: cover;">-->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -113,82 +141,87 @@
                 <li id="view_li" class="active"><a href='{{ url_for("hello_world") }}'>View experiment</a></li>
                 <li id="add_li"><a href='{{ url_for("save_experiment_form") }}'>Add experiment</a></li>
             </ul>
-            <form class="navbar-form navbar-right" role="form" method="POST" action="/logout">
-                <button style="margin-top: -10px;" id="toggle_menu" class="btn btn-xs btn-primary">Show menu</button>
-                <button style="margin-top: -10px;" type="submit" class="btn btn-success btn-xs">Log out</button>
-            </form>
+            <div class="navbar-right">
+                <a><i style="color:white; font-size: 2.5em;" class="btn btn-flat btn-lg glyphicon glyphicon-th-list"></i></a>
+                <!--<button style="margin-top: -10px;" id="toggle_menu" class="btn btn-xs btn-primary">Show menu</button>-->
+                <a href="/logout"> <i style="color:white; font-size: 2.5em;" class="btn btn-flat btn-lg glyphicon glyphicon-log-out"></i></a>
+                <!--<button style="margin-top: -10px;" type="submit" class="btn btn-xs">Log out</button>-->
+            </div>
         </div><!--/.navbar-collapse -->
       </div>
     </div>
 
 
-    <div class="jumbotron" style="padding-top:5%; padding-bottom:3%; background-color:#5bc0de;"> <!-- background-image: url(/static/texture.jpg); background-size:cover;"> <!---color:#5bc0de;">-->
+    <div class="jumbotron" style="padding-top:5%; padding-bottom:3%; background-color:#03a9f4;"> <!-- #5bc0debackground-image: url(/static/texture.jpg); background-size:cover;"> <!---color:#5bc0de;">-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
-                    <h2 style="color:black;">Omics Services analysis parameters data storage</h2>
+                <div class="col-xs-9">
+                    <h1 style="color:white;">Omics Services analysis</h1>
                 </div>
-                <div class="col-sm-3">
-                    <p style="border: solid 1px;text-align:center; padding: 20px 0 20px 0; color: white">Omics Services</p>
+                <div class="col-xs-3">
+                    <p style="border: solid 1px;text-align:center; padding: 20px 0 20px 0; color: white; margin-top: 20px;">Omics Services</p>
                     <!--<img style="padding-top:20px;" src="/static/omics-services-small.png"/>-->
                 </div>
             </div>
-            <p class="lead" style="color:white;">Metabolomics, Proteomics, Genomics, Statistics</p>
+            <h3 style="color:lightskyblue;">Metabolomics, Proteomics, Genomics, Statistics</h3>
             <!--<p><a class="btn btn-primary btn-lg" role="button">Show all experiments</a></p>-->
         </div>
     </div>
 
-    <div style="width:98%" class="container container-xs-height">
-        <div class="row row-xs-height">
-            <div id="menu" style=" background-color: darkslategrey; border-radius: 10px; opacity:1.0; border-right: solid 5px; border-color: white;" class="col-md-2 col-xs-height">
-                <ul class="nav nav-pills nav-stacked">
-                    <li>
-                        <h3 style="color:forestgreen">Menu</h3><hr style="border: solid 1px; border-color: forestgreen;">
-                    </li>
+    <div style="width:90%" class="container">
+        <div style="border-left: solid 5px #03a9f4" class="row">
+            <div id="menu" style=" opacity:1.0; text-align: center; padding: 0 0 0 0;" class="col-xs-1">
+                <ul style="position:fixed" class="nav nav-pills nav-stacked">
+                    <!--border-radius: 10px; border: 1px solid #29b6f6;-->
+                    <!--style="position:fixed"-->
+                    <!--<li>-->
+                        <!--<h3 style="color:#29b6f6">Menu</h3>-->
+                        <!--&lt;!&ndash;background-color:#29b6f6;&ndash;&gt;-->
+                        <!--<hr style="border: 1px solid #29b6f6;">-->
+                    <!--</li>-->
 
                     <li>
-                        <a href='#' style="padding-bottom: 20px;"> Hello <strong>{{ login.upper() }}.</strong></a>
+                        <a href='#' > Hello <strong>{{ login.upper() }}.</strong></a>
 
                     </li>
 
-                    <li>
-                        <a href="{{ url_for('launch_experiment') }}"><i style="color:black" class="glyphicon glyphicon-off"></i> Launch exp</a>
+                    <!--launch experiment-->
+                    <li >
+                        <a href="{{ url_for('launch_experiment') }}"><i style="font-size: 4em;" class="glyphicon glyphicon-plus-sign"></i></a>
                     </li>
 
+                    <!--View experiment-->
                     <li>
-                        <a><i style="color:black" class="glyphicon glyphicon-off"></i> View exp</a>
+                        <a><i style="font-size: 4em;" class="glyphicon glyphicon-eye-open"></i></a>
                     </li>
+
+                    <!--edit exp-->
                     <li>
-                        <a><i style="color:black" class="glyphicon glyphicon-off"></i> Edit params</a>
+                        <a><i style="font-size: 4em;" class="glyphicon glyphicon-pencil"></i></a>
                     </li>
+
+                    <!--jobs-->
                     <li>
-                        <a href='{{ url_for("show_jobs") }}'><i style="color:black" class="glyphicon glyphicon-off"></i> Jobs</a>
+                        <a href='{{ url_for("show_jobs") }}'><i style="font-size: 4em;" class="glyphicon glyphicon-tasks"></i></a>
                     </li>
                     <!--<li>-->
                         <!--<a class="btn btn-warning">Hide</a>-->
                     <!--</li>-->
 
-                    <li style="padding-top: 50px;">
-                        <h3 style="color:forestgreen">News</h3><hr style="border: solid 1px; border-color: forestgreen;">
-                    </li>
+                    <!--<li style="padding-top: 20px;">-->
+                        <!--<h3 style="color:#29b6f6">News</h3><hr style="border: solid 1px; border-color: #29b6f6;">-->
+                    <!--</li>-->
 
-                    <li><a type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><strong>Eledelphe</strong> version 0.0.1</a></li>
-                    <li><a href="http://omics-services.com">Visit us at omics-services.com</a></li>
+                    <!--<li><a type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><strong>Eledelphe</strong> version 0.0.1</a></li>-->
+                    <!--<li><a href="http://omics-services.com">Visit us at omics-services.com</a></li>-->
                 </ul>
-                <div style="padding-top: 50px;" class="row">
-                    <div class="col-xs-4">
-                        <img style="max-width: 70px" src="/static/email.png" />
-                    </div>
-                    <div class="col-xs-4">
-                        <img style="max-width: 70px" src="/static/linkedin.png">
-                    </div>
-                    <div class="col-xs-4">
-                        <img style="max-width: 70px" src="/static/twitter.png" />
-                    </div>
-                </div>
+
+                <!--New container for social icons-->
+                <!--have to put in container fluid or fail!-->
+
 
             </div>
-            <div class="col-md-10 col-xs-height">
+            <div class="col-xs-11">
                 {% block body %}
                 {% endblock %}
             </div>
@@ -218,8 +251,22 @@
 
 </body>
 <footer>
-    <div style="background-color:darkslategrey; height:60px; color:white; bottom:0; position:absolute; width:100%;" class="text-center">
-        <p style="padding-top: 20px">Copyright omics services 2014</p>
+    <div style="background-color:darkslategrey; height:120px; color:white; bottom:0; position:absolute; width:100%;" class="text-center">
+        <p style="padding-top: 20px">Copyright <a href="http://omics-services.com">omics services</a>2014</p>
+
+        <div style="max-width: 170px; padding-bottom: 10px;" class="container">
+            <div class="row">
+                <div class="col-xs-4">
+                    <img style="max-width: 50px" src="/static/email.png" />
+                </div>
+                <div class="col-xs-4">
+                    <img style="max-width: 50px" src="/static/linkedin.png">
+                </div>
+                <div class="col-xs-4">
+                    <img style="max-width: 50px" src="/static/twitter.png" />
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
 <!--<footer class="col-md-12 text-center" style="position: absolute; bottom: 0;width: 100%; height: 60px;background-color: darkslategrey; color:white;">

@@ -2,133 +2,131 @@
 {% block body %}
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6">
-                    <h3>Experiments metadata</h3>
-                    <hr style="border: solid 1px;">
-                    <div class="text-center">
-                        <form class="form-horizontal" role="form" method="POST" action="/save_experiment" enctype=multipart/form-data>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="organization">Organization:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" name="organization" id="organization">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3  control-label" for="title">Title:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" name="title" id="title" placeholder="experiment#0">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="title">Date:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" name="date" id="date" type="date">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Description:</label>
-                                <div class="col-sm-9">
-                                    <textarea class="form-control" name="description" placeholder="Metabolomic experiment"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Software:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" name="software" placeholder="XCMS (R package)">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Version:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" name="version" placeholder="None">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Parameters (script):</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control floating-label" placeholder="Browse...">
-                                    <input name="parameters" type="file">
-                                </div>
-                            </div>
+<div style="background-color: #f5f5f5; border-radius: 10px;" class="container">
+    <form class="row" role="form" method="POST" action="/launch_exp" enctype=multipart/form-data>
 
-                        </form>
+        <div class="col-xs-6">
+            <h3>Experiments metadata</h3>
+            <hr style="border: solid 1px;">
+            <div class="text-center">
+                <div class="form-horizontal" >
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="organization">Organization:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="organization" id="organization">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3  control-label" for="title">Title:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="title" id="title" placeholder="experiment#0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="title">Date:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="date" id="date" type="date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Description:</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" name="description" placeholder="Metabolomic experiment"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Software:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="software" placeholder="XCMS (R package)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Version:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="version" placeholder="None">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Parameters (script):</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" rows="10" name="parameters"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <h3>Annotations parameters</h3>
+            <hr style="border: solid 1px;">
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-3  control-label">peaklist:</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control floating-label" placeholder="Browse...">
+                        <input name="peaklist" type="file">
                     </div>
                 </div>
 
-                <div class="col-xs-6">
-                     <h3>Annotations parameters</h3>
-                    <hr style="border: solid 1px;">
-                    <!--<div class="text-center">-->
-                        <form style="width:100%;" class="form-horizontal" role="form" method="POST" action="/save_experiment" enctype=multipart/form-data>
-                            <div class="form-group">
-                                <label class="col-sm-3  control-label">peaklist:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control floating-label" placeholder="Browse...">
-                                    <input name="parameters" type="file">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3  control-label">m/z tolerance:</label>
-                                <div class="col-sm-9">
-                                    <input class="slider" type='range' name="mz_tol">
-                                    <div class="checkbox">
-                                        <label  class="col-sm-9 col-offset-3">
-                                            <input type="checkbox"> Direct Infustion experiment
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3  control-label">polarity:</label>
-                                <div class="col-sm-9">
-                                    <select id="polarity" class="form-control">
-                                    <option>positive</option>
-                                    <option>negative</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-3  control-label">Adducts and fragments:</label>
-                                <div class="col-sm-9">
-                                    <select id="adducts" multiple class="form-control" size="26">
-                                        <optgroup label="fragments">
-                                            <option>Fragment [M+H2O],1,0,-18.01057</option>
-                                            <option>Fragment [M-H2O],1,0,18.01057</option>
-                                            <option>Fragment [M-CO],1,0,27.99492</option>
-                                            <option>Fragment [M-CO2],1,0,43.98983</option>
-                                            <option>Fragment [M-NH3],1,0,17.02655</option>
-                                            <option>Fragment [M-SO],1,0,47.96699</option>
-                                            <option>Fragment [M-SO2],1,0,63.9619</option>
-                                            <option>Fragment [M-SO3],1,0,79.95682</option>
-                                            <option>Fragment [M-H2SO4],1,0,97.96738</option>
-                                            <option>Fragment [M-H3PO4],1,0,97.9769</option>
-                                         </optgroup>
-                                        <optgroup label="adducts">
-                                            <option>[M+Na+],1,1,-21.98194</option>
-                                            <option>[M+K+],1,1,-37.95588</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-4"></label>
-                                <button class="col-sm-5 btn btn-primary" type="submit">Submit</button>
-                            </div>
-                        </form>
-                    <!--</div>-->
+                <div class="form-group">
+                    <label class="col-xs-3  control-label">m/z tolerance:</label>
+                    <div class="col-xs-9">
+                        <input class="slider" type='range' name="mz_tol_ppm" value="10" min="1" max="50">
+                        <div class="checkbox">
+                            <label  class="col-xs-9 col-offset-3">
+                                <input name='is_dims' type="checkbox"> Direct Infustion experiment
+                            </label>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3  control-label">polarity:</label>
+                    <div class="col-xs-9">
+                        <select id="polarity" name="polarity" class="form-control">
+                            <option>positive</option>
+                            <option>negative</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-xs-3  control-label">Adducts and fragments:</label>
+                    <div class="col-xs-9">
+                        <select style="height:300px;" id="adducts" name="adds" multiple class="form-control">
+                            <optgroup label="fragments">
+                                <option>Fragment [M+H2O],1,0,-18.01057</option>
+                                <option>Fragment [M-H2O],1,0,18.01057</option>
+                                <option>Fragment [M-CO],1,0,27.99492</option>
+                                <option>Fragment [M-CO2],1,0,43.98983</option>
+                                <option>Fragment [M-NH3],1,0,17.02655</option>
+                                <option>Fragment [M-SO],1,0,47.96699</option>
+                                <option>Fragment [M-SO2],1,0,63.9619</option>
+                                <option>Fragment [M-SO3],1,0,79.95682</option>
+                                <option>Fragment [M-H2SO4],1,0,97.96738</option>
+                                <option>Fragment [M-H3PO4],1,0,97.9769</option>
+                             </optgroup>
+                            <optgroup label="adducts">
+                                <option>[M+Na+],1,1,-21.98194</option>
+                                <option>[M+K+],1,1,-37.95588</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-xs-4"></label>
+                    <button class="col-xs-5 btn btn-primary" type="submit">Submit</button>
+                </div>
+
             </div>
-
-
         </div>
+    </form>
+</div>
 
 <script>
     var pos_adducts = ["[M+Na+],1,1,-21.98194",
