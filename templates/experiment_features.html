@@ -1,0 +1,89 @@
+{%  extends 'layout.html' %}
+{%  block body %}
+
+    <h2>{{ experiment.title }}, {{ experiment.organization }}, {{ experiment.date }}</h2>
+    <table>
+         <TR>
+             <TH > mass </TH>
+             <TH > rt </TH>
+             <TH > abundances </TH>
+             <TH > main attribution </TH>
+             <th > annotations </th>
+         </TR>
+    {% for feature in features %}
+        <tr>
+            <td style="min-width: 8%; max-width: 8%;">{{ feature.mass  }}</td>
+            <td style="min-width: 8%; max-width: 8%;">{{ feature.rt  }}</td>
+            <td style="min-width: 200px; max-width: 200px;">
+                <div id='container-{{ feature.feature_id }}' >
+                </div>
+            </td>
+            <td style="min-width: 20%; max-width: 20%;">{{ feature.main_attribution }}</td>
+            <td style="min-width: 100px; max-width: 100px;">{{ feature.annotations }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <div class=pagination>
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <a href='{{ url_for("get_experiment", experiment_id=experiment.experiment_id, page=page) }}'>{{ page }}</a>
+      {% else %}
+        <strong>{{ page }}</strong>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {%- endfor %}
+  {% if pagination.has_next %}
+    <a href='{{ url_for("get_experiment", experiment_id=experiment.experiment_id, page=pagination.page + 1) }}'>Next &raquo;</a>
+  {% endif %}
+  </div>
+
+
+
+    <script type="text/javascript">
+    window.onload = function() {
+        {% for feature in features %}
+            var container_id = "#container-";
+            container_id += "{{ feature.feature_id }}";
+            $(container_id).highcharts({
+                  title: {
+                            text: 'Intensities',
+                            x: -20 //center
+                        },
+
+                        xAxis: {
+                            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Intensity (°C)'
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                        },
+
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: [ {
+                            name: 'London',
+                            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                        }]
+
+            });
+            {% endfor %}
+
+    };
+
+</script>
+{% endblock %}
+

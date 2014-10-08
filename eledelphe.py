@@ -15,7 +15,7 @@ from itsdangerous import base64_encode, base64_decode
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
-from model import MetabolomicsExperiment
+from model import MetabolomicsExperiment, Experiment
 import tasks
 
 
@@ -67,7 +67,7 @@ def hello():
         else:
             session['logged_in'] = True
             session['username'] = request.form['username']
-            flash('You were logged in !!!')
+            flash('You were successfully logged in', 'success')
             return redirect(url_for('hello_world'))
     return render_template('login.html', error=error)
 
@@ -78,16 +78,26 @@ def goodbye():
 
 
 @app.route('/experiments/', defaults={'page': 1})
-@app.route('/experiments/page/<int:page>')
+@app.route('/experiments/page/<int:page>', methods=['GET'])
 def hello_world(page):
     """
     :return:
     """
     if not session.get('logged_in'):
         abort(401)
-
     paginator = Pagination(MetabolomicsExperiment.objects, page=page, per_page=PER_PAGE)
-    return render_template("experiments.html", experiments=paginator.items, pagination=paginator, login=session['username'])
+    return render_template("experiments.html",
+                           experiments=paginator.items,
+                           pagination=paginator,
+                           login=session['username'])
+
+
+@app.route('/experiment/<objectid:exp_id>', methods=['GET'])
+def show_experiment(exp_id):
+    """ show experiment"""
+    experiment = Experiment.objects(id=exp_id).first()
+    flash('fetch experiment id {}'.format(exp_id))
+    return render_template('experiment.html', experiment=experiment, login=session['username'])
 
 # @app.route('/experiment/<int:experiment_id>/<int:page>')
 # def get_experiment(experiment_id, page=1):
@@ -102,7 +112,7 @@ def hello_world(page):
 #     cursor = mongo.db.features.find({'experiment_id': experiment_id}).skip(min_i - 1).limit(PER_PAGE)
 #     pagination = Pagination(page, nb_features)
 #     features = list(cursor)
-#     return render_template("experiment.html", experiment=experiment, features=features, pagination=pagination)
+#     return render_template("experiment_features.html", experiment=experiment, features=features, pagination=pagination)
 
 @app.route('/save_experiment', methods=['POST'])
 def save_experiment():
@@ -165,6 +175,8 @@ def launch_experiment():
     @return:
     """
     if request.method == 'GET':
+        flash('Fill this before')
+
         return render_template('launch_exp.html', login=session['username'])
 
     #handle post method

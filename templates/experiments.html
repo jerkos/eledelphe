@@ -15,8 +15,8 @@
                          <TH> Date </TH>
                          <th> Description</th>
                          <TH> Software </TH>
-                         <TH> Version </TH>
-                         <!--<TH> Parameters </TH>-->
+                         <th> View</th>
+
                      </TR>
                 </thead>
                 <tbody>
@@ -27,7 +27,7 @@
                         <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
                         <TD>{{ experiment.description }}</TD>
                         <TD>{{ experiment.software }}</TD>
-                        <TD>{{ experiment.version }}</TD>
+                        <td><a href='{{ url_for("show_experiment", exp_id=experiment.id) }}'>View</a></td>
                         </TR>
                     {% endfor %}
                 </tbody>

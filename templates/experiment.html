@@ -1,89 +1,89 @@
-{%  extends 'layout.html' %}
-{%  block body %}
+{% extends "layout.html" %}
+{% block body %}
 
-    <h2>{{ experiment.title }}, {{ experiment.organization }}, {{ experiment.date }}</h2>
-    <table>
-         <TR>
-             <TH > mass </TH>
-             <TH > rt </TH>
-             <TH > abundances </TH>
-             <TH > main attribution </TH>
-             <th > annotations </th>
-         </TR>
-    {% for feature in features %}
-        <tr>
-            <td style="min-width: 8%; max-width: 8%;">{{ feature.mass  }}</td>
-            <td style="min-width: 8%; max-width: 8%;">{{ feature.rt  }}</td>
-            <td style="min-width: 200px; max-width: 200px;">
-                <div id='container-{{ feature.feature_id }}' >
-                </div>
-            </td>
-            <td style="min-width: 20%; max-width: 20%;">{{ feature.main_attribution }}</td>
-            <td style="min-width: 100px; max-width: 100px;">{{ feature.annotations }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    <div class=pagination>
-  {%- for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a href='{{ url_for("get_experiment", experiment_id=experiment.experiment_id, page=page) }}'>{{ page }}</a>
-      {% else %}
-        <strong>{{ page }}</strong>
-      {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {%- endfor %}
-  {% if pagination.has_next %}
-    <a href='{{ url_for("get_experiment", experiment_id=experiment.experiment_id, page=pagination.page + 1) }}'>Next &raquo;</a>
-  {% endif %}
-  </div>
+<h1>{{ experiment.title }} : {{ experiment.experiment_type_id }}</h1><hr style="border: solid 1px lightgrey">
+
+<div class="container">
+    <div class="row">
+    </div>
+    <div class="row">
+        <h3 style="color:#03a9f4"> Metadata </h3><hr style="border: solid 1px lightgrey">
+    </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label">Organization:</label>
+                <input type="text" class="form-control" name="organization" value='{{ experiment.organization}}'>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label">Date:</label>
+                <input type="text" disabled class="form-control" name="organization" value='{{ experiment.date}}'>
+            </div>
+        </div>
+
+         <div class="row">
+             <!--<p> Description:</p>-->
+            <!--<textarea class=>{{ experiment.description }}</textarea>-->
+            <div class="form-group">
+                <label class="control-label">Description:</label>
+                <!--<div>-->
+                <textarea class="form-control" name="description">{{ experiment.description}}</textarea>
+                <!--</div>-->
+            </div>
+        </div>
 
 
+    <div class="row">
+        {% if experiment.parameters %}
+            <pre>
+                <code>
+                    {{ experiment.parameters }}
+                </code>
+            </pre>
+        {% else %}
+            <p style="color:lightgrey; font-size: 1.5em;">No peaklist parameters found <span style="margin-top: -5px" class="btn btn-default btn-primary pull-right">Paste</span></p>
+            <div style="display: none" class="form-group">
+                <label class="control-label">Parameters (script):</label>
+                <textarea  class="form-control" rows="10" name="parameters"></textarea>
+            </div>
+        {% endif %}
+    </div>
 
-    <script type="text/javascript">
-    window.onload = function() {
-        {% for feature in features %}
-            var container_id = "#container-";
-            container_id += "{{ feature.feature_id }}";
-            $(container_id).highcharts({
-                  title: {
-                            text: 'Intensities',
-                            x: -20 //center
-                        },
+    <div class="row">
+        <h3 style="color:#03a9f4"> Technical </h3><hr style="border: solid 1px lightgrey">
+    </div>
 
-                        xAxis: {
-                            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Intensity (°C)'
-                            },
-                            plotLines: [{
-                                value: 0,
-                                width: 1,
-                                color: '#808080'
-                            }]
-                        },
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="control-label">Software:</label>
+                <input type="text" class="form-control" name="software" value='{{ experiment.software }}'>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="control-label">Version:</label>
+                <input type="text" class="form-control" name="version" value='{{ experiment.version }}'>
+            </div>
+        </div>
+    </div>
 
-                        legend: {
-                            layout: 'vertical',
-                            align: 'right',
-                            verticalAlign: 'middle',
-                            borderWidth: 0
-                        },
-                        series: [ {
-                            name: 'London',
-                            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                        }]
+     <div class="row">
+         <!--<p> Description:</p>-->
+        <!--<textarea class=>{{ experiment.description }}</textarea>-->
+        <div class="form-group">
+            <label class="control-label">samples</label>
+            <!--<div>-->
+            <select class="form-control" name="filenames">{{ experiment.description}}
+                {% for f in experiment.filenames %}
+                    <option>{{ f }}</option>
+                {% endfor %}
+            </select>
+            <!--</div>-->
+        </div>
+    </div>
 
-            });
-            {% endfor %}
+</div>
 
-    };
-
-</script>
 {% endblock %}
-

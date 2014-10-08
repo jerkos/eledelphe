@@ -5,7 +5,19 @@
     <link href="/static/material/css-compiled/material-wfont.min.css" rel="stylesheet">
 </head>
 <body style="background: url(static/bird.jpg);background-size:cover;">
-
+ <div class="container">
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+</div>
 <div class="container text-center" style="padding-top:18%;">
     <div class="row" style="padding-bottom:10px;">
         <div class="col-sm-5 col-sm-offset-4">
