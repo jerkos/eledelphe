@@ -1,192 +1,266 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h3>Current experiments </h3>
-<hr style="border: solid 1px">
+<div style="margin-left:200px; max-width: 80%;" class="animable-container container">
+<div class="row">
+    <h3>Current experiments </h3>
+    <hr style="border: solid 1px">
+</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <table style="background-color: white; text-align: center;" class="table table-bordered table-stripped table-hover">
-                <thead>
-                     <TR style="background-color: cornflowerblue; color:white" >
-                         <TH> Title </TH>
-                         <TH> Client </TH>
-                         <TH> Date </TH>
-                         <th> Description</th>
-                         <TH> Software </TH>
-                         <th> View</th>
+<div class="row">
+    <div class="col-xs-12">
+        <table style="background-color: white; text-align: center;"
+               class="table table-bordered table-stripped table-hover">
+            <thead>
+            <TR style="background-color: cornflowerblue; color:white">
+                <TH> Title</TH>
+                <TH> Client</TH>
+                <TH> Date</TH>
+                <th> Description</th>
+                <TH> Software</TH>
+                <th> View</th>
 
-                     </TR>
-                </thead>
-                <tbody>
-                    {% for experiment in experiments %}
-                        <TR>
-                        <TD>{{ experiment.title }}</TD>
-                        <TD>{{ experiment.organization }}</TD>
-                        <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
-                        <TD>{{ experiment.description }}</TD>
-                        <TD>{{ experiment.software }}</TD>
-                        <td><a href='{{ url_for("show_experiment", exp_id=experiment.id) }}'>View</a></td>
-                        </TR>
-                    {% endfor %}
-                </tbody>
-            </TABLE>
-        </div>
+            </TR>
+            </thead>
+            <tbody>
+            {% for experiment in experiments %}
+            <TR>
+                <TD>{{ experiment.title }}</TD>
+                <TD>{{ experiment.organization }}</TD>
+                <TD>{{ experiment.date.strftime('%Y-%m-%d') }}</TD>
+                <TD>{{ experiment.description }}</TD>
+                <TD>{{ experiment.software }}</TD>
+                <td><a href='{{ url_for("show_experiment", exp_id=experiment.id) }}'>View</a></td>
+            </TR>
+            {% endfor %}
+            </tbody>
+        </TABLE>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-xs-4">
+<div class="row">
+    <div class="col-xs-4">
 
-        </div>
-        <div class="col-xs-4">
-            <ul style="padding-left: 20%;" class="pagination pagination-sm">
-                {%- for page in pagination.iter_pages() %}
-                    {% if page %}
-                        {% if page != pagination.page %}
-                            <li><a href='{{ url_for("hello_world", page=page) }}'>{{ page }}</a></li>
-                        {% else %}
-                            <li><a><strong>{{ page }}</strong></a></li>
-                        {% endif %}
-                    {% else %}
-                        <li><span class=ellipsis>…</span></li>
-                    {% endif %}
-                {%- endfor %}
-
-                {% if pagination.has_next %}
-                    <li><a href='{{ url_for("hello_world", page=pagination.page + 1) }}'>Next &raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-         <div class="col-xs-4">
-
-        </div>
     </div>
- </div>
+    <div class="col-xs-4">
+        <ul style="padding-left: 20%;" class="pagination pagination-sm">
+            {%- for page in pagination.iter_pages() %}
+            {% if page %}
+            {% if page != pagination.page %}
+            <li><a href='{{ url_for("hello_world", page=page) }}'>{{ page }}</a></li>
+            {% else %}
+            <li><a><strong>{{ page }}</strong></a></li>
+            {% endif %}
+            {% else %}
+            <li><span class=ellipsis>…</span></li>
+            {% endif %}
+            {%- endfor %}
+
+            {% if pagination.has_next %}
+            <li><a href='{{ url_for("hello_world", page=pagination.page + 1) }}'>Next &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-xs-4">
+
+    </div>
+</div>
 
 
-<h3>Main statistics <span class="well-material-grey">total experiments: <span style="color:white;">198</span> total features: <span style="color:white;">115616</span></span></h3>
-<hr style="border: solid 1px">
+<div class="row">
+    <h3>Main statistics</h3>
+    <hr style="border: solid 1px">
+</div>
+<div class="row">
+    <div class="col-xs-3">
 
-<div style="padding: 20px 0 60px 0;" class="container">
 
-    <div class="row">
-        <div class="col-xs-6">
-
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3>3 best organizations</h3>
+            <div style='margin-right:20px;' class="row">
+                <div style=" background-color:#2F80E7; height:100px; text-align:center; border-bottom-left-radius:2px;border-top-left-radius:2px;" class="col-xs-4">
+                    <i style='color:white;font-size:3em;padding-top:25px' class="glyphicon glyphicon-briefcase"></i>
                 </div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">15m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">10m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">8m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
+                <div style="background-color:#5D9CEC; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:2px;border-top-right-radius:2px;" class="col-xs-8">
+                    <div >
+                        <strong style="font-size:2em; color:white;">156</strong>
+                    </div>
+                    <div>
+                        <span style="color:white">EXPERIMENTS</span>
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        <div id="test_h" class="col-xs-6">
-        </div>
-
     </div>
+    <div class="col-xs-3">
 
-    <div style="padding-top: 50px;" class="row">
-
-        <div id="test_g" class="col-xs-6" >
-        </div>
-
-        <div class="col-xs-6">
-            <div class="panel panel-primary">
-
-                <div class="panel-heading">
-                    <h3 style="padding-bottom: 20px;">Experiments type</h3>
+        <div style='margin-right:20px;' class="row">
+                <div style=" background-color:#564AA3; height:100px; text-align:center; border-bottom-left-radius:2px;border-top-left-radius:2px;" class="col-xs-4">
+                    <i style='color:white;font-size:3em;padding-top:25px' class="glyphicon glyphicon-briefcase"></i>
                 </div>
-
-                <div class="panel-body">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">15m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload glyphicon-success"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">10m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="glyphicon glyphicon-upload"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">8m</div>
-                                <h4 class="list-group-item-heading">Tile with a label</h4>
-                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                            </div>
-                        </div>
-
-                        <div class="list-group-separator"></div>
-
+                <div style="background-color:#7266BA; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:2px;border-top-right-radius:2px;" class="col-xs-8">
+                    <div >
+                        <strong style="font-size:2em; color:white;">12</strong>
                     </div>
+                    <div>
+                        <span style="color:white">ORGANISM</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <div class="row-picture">
+                    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+                </div>
+                <div class="row-content">
+                    <h4 class="list-group-item-heading">Tile with avatar</h4>
+
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-xs-3">
+        <div class="list-group">
+            <div class="list-group-item">
+                <div class="row-picture">
+                    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+                </div>
+                <div class="row-content">
+                    <h4 class="list-group-item-heading">Tile with avatar</h4>
+
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<span class="well-material-grey">total experiments: <span style="color:white;">198</span> total features: <span style="color:white;">115616</span></span></h3>-->
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>3 best organizations</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">15m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">10m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">8m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="test_h" class="col-xs-6">
+    </div>
+
+</div>
+
+<div style="padding-top: 50px;" class="row">
+
+    <div id="test_g" class="col-xs-6">
+    </div>
+
+    <div class="col-xs-6">
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h3 style="padding-bottom: 20px;">Experiments type</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">15m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload glyphicon-success"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">10m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </div>
+                        <div class="row-content">
+                            <div class="least-content">8m</div>
+                            <h4 class="list-group-item-heading">Tile with a label</h4>
+
+                            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                        </div>
+                    </div>
+
+                    <div class="list-group-separator"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 
@@ -279,6 +353,7 @@
         }]
     });
     };
+
 
 </script>
 {% endblock %}

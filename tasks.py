@@ -15,7 +15,6 @@ __author__ = 'Marc'
 #
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from numba.cuda.cudadrv.driver import require_device_memory
 
 __email__ = 'marc.dubois@omics-services.com'
 

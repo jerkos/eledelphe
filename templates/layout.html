@@ -12,73 +12,16 @@
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
     <style>
-        .container-xs-height {
-            display:table;
-            padding-left:0px;
-            padding-right:0px;
-        }
-        .row-xs-height {
-            display:table-row;
-        }
-        .col-xs-height {
-            display:table-cell;
-            float:none;
-        }
-        @media (min-width: 768px) {
-            .container-sm-height {
-                display:table;
-                padding-left:0px;
-                padding-right:0px;
-            }
-            .row-sm-height {
-                display:table-row;
-            }
-            .col-sm-height {
-                display:table-cell;
-                float:none;
-            }
-        }
-        @media (min-width: 992px) {
-            .container-md-height {
-                display:table;
-                padding-left:0px;
-                padding-right:0px;
-            }
-            .row-md-height {
-                display:table-row;
-            }
-            .col-md-height {
-                display:table-cell;
-                float:none;
-            }
-        }
-        @media (min-width: 1200px) {
-            .container-lg-height {
-                display:table;
-                padding-left:0px;
-                padding-right:0px;
-            }
-            .row-lg-height {
-                display:table-row;
-            }
-            .col-lg-height {
-                display:table-cell;
-                float:none;
-            }
-        }
-        /* vertical alignment styles */
-        .col-top {
-            vertical-align:top;
-        }
-        .col-middle {
-            vertical-align:middle;
-        }
-        .col-bottom {
-            vertical-align:bottom;
-        }
 
         #menu {
             -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+
+        .container {
+          -webkit-transition: all 0.5s ease;
             -moz-transition: all 0.5s ease;
             -o-transition: all 0.5s ease;
             transition: all 0.5s ease;
@@ -88,15 +31,15 @@
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             border-radius: 0;
-            border: solid 1px white;
-            background-color:#bdbdbd;
+            /*border: solid 1px white;*/
+            /*background-color:#bdbdbd;*/
         }
         /*#menu ul li {*/
             /*border: 1px solid #ef6c00;*/
         /*}*/
 
         #menu ul li a {
-            color:black;
+            color:lightgrey;
         }
 
         /*#menu ul li a{*/
@@ -107,9 +50,10 @@
         /*}*/
 
         #menu ul li a:hover {
-            background-color: #9c27b0; /* #563D7C;*/
+            background-color: black;/*#9c27b0;  #563D7C;*/
             color: white;
             border-radius: 0;
+            border-left: solid 5px #9c27b0;
             /*text-decoration: underline;*/
             /*color:white;*/
             /*background-color: #ef6c00;*/
@@ -141,7 +85,7 @@
                 <li id="add_li"><a style="color:#03a9f4;" href='{{ url_for("save_experiment_form") }}'>Add experiment</a></li>
             </ul>
             <div class="navbar-right">
-                <a style="color:#03a9f4; font-size: 2em; margin-top: -5px;" class="btn btn-flat glyphicon glyphicon-th-list"></a>
+                <a id="toggle_menu" style="color:#03a9f4; font-size: 2em; margin-top: -5px;" class="btn btn-flat glyphicon glyphicon-th-list"></a>
                 <!--<button style="margin-top: -10px;" id="toggle_menu" class="btn btn-xs btn-primary">Show menu</button>-->
                 <a href="/logout" style="color:#03a9f4;font-size: 2em; margin-top: -5px;;" class="btn btn-flat glyphicon glyphicon-log-out"></a>
                 <!--<button style="margin-top: -10px;" type="submit" class="btn btn-xs">Log out</button>-->
@@ -178,65 +122,51 @@
       {% endif %}
     {% endwith %}
 
-    <div style="width:90%" class="container">
-        <div style="border-left: solid 5px #03a9f4" class="row">
-            <div id="menu" style=" opacity:1.0; text-align: center; " class="col-xs-2">
-                <ul style="position:fixed" class="nav nav-pills nav-stacked">
-                    <!--border-radius: 10px; border: 1px solid #29b6f6;-->
-                    <!--style="position:fixed"-->
-                    <!--<li>-->
-                        <!--<h3 style="color:#29b6f6">Menu</h3>-->
-                        <!--&lt;!&ndash;background-color:#29b6f6;&ndash;&gt;-->
-                        <!--<hr style="border: 1px solid #29b6f6;">-->
-                    <!--</li>-->
+    <div id="menu" style="position:absolute; padding: 0 0 0 0; background-color: #3A3633; margin-top: 255px;width:100px; top:0; bottom:0; left:0; opacity:1.0; text-align: center; " class="col-xs-2">
+        <ul class="nav nav-pills nav-stacked">
 
-                    <li>
-                        <a href='#' > Hello <strong>{{ login.upper() }}.</strong></a>
+            <li>
+                <a href='#' > Hello <strong>{{ login.upper() }}.</strong></a><hr style="border:solid 1px black; border-bottom:solid 1px grey; border-top:solid 1px black">
+            </li>
 
-                    </li>
+            <!--launch experiment-->
+            <li >
+                <a href="{{ url_for('launch_experiment') }}"><i style="font-size: 2em;" class="glyphicon glyphicon-plus-sign"></i></a>
+            </li>
 
-                    <!--launch experiment-->
-                    <li >
-                        <a href="{{ url_for('launch_experiment') }}"><i style="font-size: 4em;" class="glyphicon glyphicon-plus-sign"></i></a>
-                    </li>
+            <!--View experiment-->
+            <li>
+                <a><i style="font-size: 2em;" class="glyphicon glyphicon-eye-open"></i></a>
+            </li>
 
-                    <!--View experiment-->
-                    <li>
-                        <a><i style="font-size: 4em;" class="glyphicon glyphicon-eye-open"></i></a>
-                    </li>
+            <!--edit exp-->
+            <li>
+                <a><i style="font-size: 2em;" class="glyphicon glyphicon-pencil"></i></a>
+            </li>
 
-                    <!--edit exp-->
-                    <li>
-                        <a><i style="font-size: 4em;" class="glyphicon glyphicon-pencil"></i></a>
-                    </li>
+            <!--jobs-->
+            <li>
+                <a href='{{ url_for("show_jobs") }}'><i style="font-size: 2em;" class="glyphicon glyphicon-tasks"></i></a>
+            </li>
+            <!--<li>-->
+                <!--<a class="btn btn-warning">Hide</a>-->
+            <!--</li>-->
 
-                    <!--jobs-->
-                    <li>
-                        <a href='{{ url_for("show_jobs") }}'><i style="font-size: 4em;" class="glyphicon glyphicon-tasks"></i></a>
-                    </li>
-                    <!--<li>-->
-                        <!--<a class="btn btn-warning">Hide</a>-->
-                    <!--</li>-->
+            <!--<li style="padding-top: 20px;">-->
+                <!--<h3 style="color:#29b6f6">News</h3><hr style="border: solid 1px; border-color: #29b6f6;">-->
+            <!--</li>-->
 
-                    <!--<li style="padding-top: 20px;">-->
-                        <!--<h3 style="color:#29b6f6">News</h3><hr style="border: solid 1px; border-color: #29b6f6;">-->
-                    <!--</li>-->
+            <!--<li><a type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><strong>Eledelphe</strong> version 0.0.1</a></li>-->
+            <!--<li><a href="http://omics-services.com">Visit us at omics-services.com</a></li>-->
+        </ul>
 
-                    <!--<li><a type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><strong>Eledelphe</strong> version 0.0.1</a></li>-->
-                    <!--<li><a href="http://omics-services.com">Visit us at omics-services.com</a></li>-->
-                </ul>
-
-                <!--New container for social icons-->
-                <!--have to put in container fluid or fail!-->
-
-
-            </div>
-            <div class="col-xs-10">
-                {% block body %}
-                {% endblock %}
-            </div>
-        </div>
+        <!--New container for social icons-->
+        <!--have to put in container fluid or fail!-->
     </div>
+
+    {% block body %}
+    {% endblock %}
+
 
 
     <script>
@@ -245,10 +175,15 @@
             var menu = $('#menu');
             if (menu.css('opacity') == 1.0) {
                 menu.css('opacity', 0.0);
+                $('.animable-container').css('margin-left', 'auto');
             } else {
                 menu.css('opacity', 1.0);
+                $('.animable-container').css('margin-left', '200px');
             }
+
+
         });
+
 
         setTimeout(function() {
             $('.disappear').fadeOut(1000);
