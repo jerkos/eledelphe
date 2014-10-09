@@ -2,53 +2,53 @@
 {% block body %}
 
 
-<div style="background-color: #f5f5f5; border-radius: 10px; width: 90%; " class="container">
+<div style="margin-left: 200px; width: 80%; " class="animable-container container">
     <form class="row" role="form" method="POST" action="/launch_exp" enctype=multipart/form-data>
 
-        <div class="col-xs-6">
+        <div class="col-lg-6">
             <h3>Experiments metadata</h3>
             <hr style="border: solid 1px;">
             <!--<div class="text-center">-->
                 <div class="form-horizontal" >
                     <div class="form-group">
-                        <label class="col-xs-3 control-label" for="organization">Organization:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label" for="organization">Organization:</label>
+                        <div class="col-lg-9">
                             <input class="form-control" name="organization" id="organization">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3  control-label" for="title">Title:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3  control-label" for="title">Title:</label>
+                        <div class="col-lg-9">
                             <input class="form-control" name="title" id="title" placeholder="experiment#0">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label" for="title">Date:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label" for="title">Date:</label>
+                        <div class="col-lg-9">
                             <input class="form-control" name="date" id="date" type="date">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">Description:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label">Description:</label>
+                        <div class="col-lg-9">
                             <textarea class="form-control" name="description" placeholder="Metabolomic experiment"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">Software:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label">Software:</label>
+                        <div class="col-lg-9">
                             <input class="form-control" name="software" placeholder="XCMS (R package)">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">Version:</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label">Version:</label>
+                        <div class="col-lg-9">
                             <input class="form-control" name="version" placeholder="None">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">Parameters (script):</label>
-                        <div class="col-xs-9">
+                        <label class="col-lg-3 control-label">Parameters (script):</label>
+                        <div class="col-lg-9">
                             <textarea class="form-control" rows="10" name="parameters"></textarea>
                         </div>
                     </div>
@@ -57,25 +57,25 @@
             <!--</div>-->
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-lg-6">
             <h3>Annotations parameters</h3>
             <hr style="border: solid 1px;">
 
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-xs-3  control-label">peaklist:</label>
-                    <div class="col-xs-9">
+                    <label class="col-lg-3  control-label">peaklist:</label>
+                    <div class="col-lg-9">
                         <input type="text" class="form-control floating-label" placeholder="Browse...">
                         <input name="peaklist" type="file">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-3  control-label">m/z tolerance:</label>
-                    <div class="col-xs-9">
+                    <label class="col-lg-3  control-label">m/z tolerance:</label>
+                    <div class="col-lg-9">
                         <input class="slider" type='range' name="mz_tol_ppm" value="10" min="1" max="50">
                         <div class="checkbox">
-                            <label  class="col-xs-9 col-offset-3">
+                            <label  class="col-lg-9 col-offset-3">
                                 <input name='is_dims' type="checkbox"> Direct Infustion experiment
                             </label>
                         </div>
@@ -83,8 +83,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-3  control-label">polarity:</label>
-                    <div class="col-xs-9">
+                    <label class="col-lg-3  control-label">polarity:</label>
+                    <div class="col-lg-9">
                         <select id="polarity" name="polarity" class="form-control">
                             <option>positive</option>
                             <option>negative</option>
@@ -94,8 +94,8 @@
 
 
                 <div class="form-group">
-                    <label class="col-xs-3  control-label">Adducts and fragments:</label>
-                    <div class="col-xs-9">
+                    <label class="col-lg-3  control-label">Adducts and fragments:</label>
+                    <div class="col-lg-9">
                         <select style="height:300px;" id="adducts" name="adds" multiple class="form-control">
                             <optgroup label="fragments">
                                 <option>Fragment [M+H2O],1,0,-18.01057</option>
@@ -119,8 +119,8 @@
 
 
                 <div class="form-group">
-                    <label class="col-xs-4"></label>
-                    <button class="col-xs-5 btn btn-primary" type="submit">Submit</button>
+                    <label class="col-lg-4"></label>
+                    <button class="col-lg-5 btn btn-primary" type="submit">Submit</button>
                 </div>
 
             </div>

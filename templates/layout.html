@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="/static/jquery.sparkline.js"></script>
 
     <style>
 
@@ -68,7 +69,7 @@
 
 
 <!--url('/static/trianglify-background.svg'); background-size: cover;">-->
-    <div style="background-color: #fff;" class="navbar navbar-fixed-top" role="navigation">
+    <div style="background-color: #fff; height:60px;" class="navbar navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -96,7 +97,7 @@
 
 
 
-    <div class="jumbotron" style="padding-top:5%; padding-bottom:3%; background-color:#03a9f4;"> <!-- #5bc0debackground-image: url(/static/texture.jpg); background-size:cover;"> <!---color:#5bc0de;">-->
+    <div class="jumbotron" style="padding-top:5%; padding-bottom:3%; background-color:#03a9f4; height:300px;"> <!-- #5bc0debackground-image: url(/static/texture.jpg); background-size:cover;"> <!---color:#5bc0de;">-->
         <div class="container">
             <div class="row">
                 <div class="col-xs-9">
@@ -122,7 +123,9 @@
       {% endif %}
     {% endwith %}
 
-    <div id="menu" style="position:absolute; padding: 0 0 0 0; background-color: #3A3633; margin-top: 255px;width:100px; top:0; bottom:0; left:0; opacity:1.0; text-align: center; " class="col-xs-2">
+    <div id="menu" style="position:absolute; padding: 0 0 0 0; background-color: #3A3633; margin-top: 300px;
+    width:100px; top:0; bottom:0; left:0; opacity:1.0; text-align: center; " class="col-xs-2">
+
         <ul class="nav nav-pills nav-stacked">
 
             <li>

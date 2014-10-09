@@ -7,7 +7,7 @@ import os.path as op
 
 from flask import Flask, render_template, redirect, url_for, request, session, flash, abort
 #from flask.ext.pymongo import PyMongo
-from mongoengine import Document, StringField, DateTimeField
+from mongoengine import Document, StringField, DateTimeField, Q
 from flask.ext.mongoengine import MongoEngine, Pagination
 from werkzeug import secure_filename
 from werkzeug.routing import BaseConverter, ValidationError
@@ -15,7 +15,7 @@ from itsdangerous import base64_encode, base64_decode
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
-from model import MetabolomicsExperiment, Experiment
+from model import MetabolomicsExperiment, Experiment, Feature
 import tasks
 
 
@@ -92,27 +92,49 @@ def hello_world(page):
                            login=session['username'])
 
 
-@app.route('/experiment/<objectid:exp_id>', methods=['GET'])
+@app.route('/experiment/<objectid:exp_id>', methods=['GET', 'POST'])
 def show_experiment(exp_id):
-    """ show experiment"""
-    experiment = Experiment.objects(id=exp_id).first()
-    flash('fetch experiment id {}'.format(exp_id))
-    return render_template('experiment.html', experiment=experiment, login=session['username'])
+    """ show experiment
+    @param exp_id:
+    """
+    if request.method == 'GET':
+        experiment = Experiment.objects(id=exp_id).first()
+        flash('fetch experiment id {}'.format(exp_id))
+        return render_template('experiment.html', experiment=experiment, login=session['username'])
+    # deal the update post
+    organization, description, software, version, parameters = request.form['organization'], \
+                                                               request.form['description'], \
+                                                               request.form['software'], \
+                                                               request.form['version'], \
+                                                               request.form['parameters']
+    MetabolomicsExperiment.objects(id=exp_id).update(set__organization=organization, set__description=description,
+                                         set__software=software, set__version=version, set__parameters=parameters)
+    flash("experiment {} has been updated".format(exp_id), 'success')
+    return redirect(url_for('hello_world'))
 
-# @app.route('/experiment/<int:experiment_id>/<int:page>')
-# def get_experiment(experiment_id, page=1):
-#     """
-#
-#     :param experiment_id:
-#     :return:
-#     """
-#     experiment = mongo.db.experiments.find_one({'experiment_id': experiment_id})
-#     nb_features = mongo.db.features.find({'experiment_id': experiment_id}).count()
-#     min_i, max_i = get_experiments_indexes_for_page(page)
-#     cursor = mongo.db.features.find({'experiment_id': experiment_id}).skip(min_i - 1).limit(PER_PAGE)
-#     pagination = Pagination(page, nb_features)
-#     features = list(cursor)
-#     return render_template("experiment_features.html", experiment=experiment, features=features, pagination=pagination)
+@app.route('/features/<objectid:exp_id>/<int:page>', methods=['GET'])
+def features(exp_id, page=1):
+    """
+
+    :param experiment_id:
+    :return:
+    """
+    name_met = request.args.get('search')
+    experiment = Experiment.objects(id=exp_id).first()
+    if name_met is None:
+        print "search is none"
+        features = Feature.objects(experiment_id=exp_id).order_by('mass')
+    else:
+        print "DEBUG search {}".format(name_met)
+        features = Feature.objects(experiment_id=exp_id).filter(annotations__annotation__contains=name_met)
+    paginator = Pagination(features, page=page, per_page=PER_PAGE)
+    return render_template("features.html", experiment=experiment,
+                           features=paginator.items, pagination=paginator, login=session['username'])
+
+
+
+# @app.route('/update_experiment/<objectid:exp_id>', methods=)
+
 
 @app.route('/save_experiment', methods=['POST'])
 def save_experiment():

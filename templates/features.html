@@ -1,0 +1,153 @@
+{%  extends 'layout.html' %}
+{%  block body %}
+
+<div style="margin-left:200px; width: 80%;" class="animable-container container">
+    <div class="row">
+        <h2>{{ experiment.title }}, {{ experiment.organization }}</h2>
+    </div>
+
+    <div style="padding-bottom: 20px;" class="row">
+            <form action="{{url_for('features', exp_id=experiment.id, page=1)}}" method="GET">
+                <div style="padding-bottom: 20px;" class="form-group">
+                    <div class="col-md-5">
+                        <input  class="float-label form-control" name="search" placeholder="Search">
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary">filter</button>
+                    </div>
+                </div>
+            </form>
+
+
+    </div>
+
+    <div class="row">
+        <table style="background-color: white; text-align: center;"
+               class="table table-bordered table-stripped">
+             <thead style="background-color: cornflowerblue; color:white">
+                <tr>
+                 <TH > mass </TH>
+                 <TH > rt </TH>
+                 <TH > abundances </TH>
+                 <TH > main attribution </TH>
+                 <th > annotations </th>
+             </tr>
+             </thead>
+            <tbody>
+        {% for feature in features %}
+            <tr>
+                <td>{{ feature.mass  }}</td>
+                <!--style="min-width: 8%; max-width: 8%;"-->
+                <td >{{ feature.rt  }}</td>
+                <!--style="min-width: 8%; max-width: 8%;"-->
+                <td>
+                    <!--<div  style="min-width: 50px; max-width: 50px; min-height: 100px; max-height: 100px;" id='container-{{ loop.index }}' >-->
+                    <!--</div>-->
+                    <span class="inlinesparkline">{{ feature.abundances|map(attribute='abundance')|join(',') }}</span>
+                </td>
+                <td >{{ feature.main_attribution }}</td>
+                <!--style="min-width: 20%; max-width: 20%;"-->
+                <td >
+                    <!--style="min-width: 100px; max-width: 100px;"-->
+                    {% if feature.annotations %}
+                        <table class="table table-bordered">
+                            <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th> name </th>-->
+                                    <!--<th> score iso</th>-->
+                                    <!--<th> score network</th>-->
+                                <!--</tr>-->
+                            <!--</thead>-->
+                            <tbody>
+                                {% for annot in feature.annotations %}
+                                    <tr>
+                                        <th><a href="#">{{annot.annotation}}</a></th>
+                                        <th>{{ annot.score1}}</th>
+                                        <th>{{annot.score2}}</th>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    {% else %}
+                        None
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row" style="text-align: center;">
+        <ul class="pagination pagination-sm">
+            {%- for page in pagination.iter_pages() %}
+            {% if page %}
+            {% if page != pagination.page %}
+            <li><a href='{{ url_for("features", exp_id=experiment.id, page=page) }}'>{{ page }}</a></li>
+            {% else %}
+            <li><a><strong>{{ page }}</strong></a></li>
+            {% endif %}
+            {% else %}
+            <li><span class=ellipsis>…</span></li>
+            {% endif %}
+            {%- endfor %}
+
+            {% if pagination.has_next %}
+            <li><a href='{{ url_for("features", exp_id=experiment.id, page=pagination.page + 1) }}'>Next &raquo;</a></li>
+            {% endif %}
+        </ul>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    $('.inlinesparkline').sparkline();
+
+
+window.onload = function() {
+
+    {% for feature in features %}
+        var container_id = "#container-";
+        container_id += "{{ loop.index }}";
+        $(container_id).highcharts({
+              title: {
+                        text: 'Intensities',
+                        x: -20 //center
+                    },
+
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Intensity (°C)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [ {
+                        name: 'London',
+                        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                    }]
+
+        });
+    {% endfor %}
+
+};
+
+</script>
+{% endblock %}
+

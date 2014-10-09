@@ -1,39 +1,45 @@
 {% extends "layout.html" %}
 {% block body %}
-<div style="margin-left: 200px; max-width:80%" class="animable-container container">
 
-<h1>{{ experiment.title }} : {{ experiment.experiment_type_id }}</h1><hr style="border: solid 1px lightgrey">
+<div style="margin-left: 200px; width:80%" class="animable-container container">
 
+    <h1>{{ experiment.title }} : {{ experiment.experiment_type_id }}</h1><hr style="border: solid 1px lightgrey">
+
+    <form class="row" role="form" method="POST" action="{{ url_for('show_experiment', exp_id=experiment.id) }}">
 
     <div class="row">
         <h3 style="color:#03a9f4"> Metadata </h3><hr style="border: solid 1px lightgrey">
     </div>
-        <div class="row">
+        <div style="padding-bottom: 20px;" class="row">
             <div class="form-group">
-                <label class="control-label">Organization:</label>
-                <input type="text" class="form-control" name="organization" value='{{ experiment.organization}}'>
+                <label class="col-md-1 col-md-offset-1 control-label">Organization:</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="organization" value='{{ experiment.organization}}'>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div style="padding-bottom: 20px;" class="row">
             <div class="form-group">
-                <label class="control-label">Date:</label>
-                <input type="text" disabled class="form-control" name="organization" value='{{ experiment.date}}'>
+                <label class="col-md-1 col-md-offset-1 control-label">Date:</label>
+                <div class="col-md-10">
+                    <input type="text" disabled class="form-control" name="date" value='{{ experiment.date}}'>
+                </div>
             </div>
         </div>
 
-         <div class="row">
+         <div style="padding-bottom: 20px;" class="row">
              <!--<p> Description:</p>-->
             <!--<textarea class=>{{ experiment.description }}</textarea>-->
             <div class="form-group">
-                <label class="control-label">Description:</label>
-                <!--<div>-->
-                <textarea class="form-control" name="description">{{ experiment.description}}</textarea>
-                <!--</div>-->
+                <label class="col-md-1 col-md-offset-1" class="control-label">Description:</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" name="description">{{ experiment.description}}</textarea>
+                </div>
             </div>
         </div>
 
 
-    <div class="row">
+    <div style="padding-bottom: 20px;" class="row">
         {% if experiment.parameters %}
             <pre>
                 <code>
@@ -41,10 +47,13 @@
                 </code>
             </pre>
         {% else %}
-            <p style="color:lightgrey; font-size: 1.5em;">No peaklist parameters found <span style="margin-top: -5px" class="btn btn-default btn-primary pull-right">Paste</span></p>
-            <div style="display: none" class="form-group">
-                <label class="control-label">Parameters (script):</label>
-                <textarea  class="form-control" rows="10" name="parameters"></textarea>
+            <p class="col-md-11 col-md-offset-1" style="color:lightgrey; font-size: 1.5em;">No peaklist parameters found <span id="show_params" style="margin-top: -5px" class="btn btn-primary pull-right">SHOW</span></p>
+
+            <div id='params' style="padding-bottom: 20px; display: none" class="form-group">
+                <label class="col-md-1 col-md-offset-1 control-label">Parameters (script):</label>
+                <div class="col-md-10">
+                    <textarea  class="form-control" rows="10" name="parameters"></textarea>
+                </div>
             </div>
         {% endif %}
     </div>
@@ -53,36 +62,63 @@
         <h3 style="color:#03a9f4"> Technical </h3><hr style="border: solid 1px lightgrey">
     </div>
 
-    <div class="row">
-        <div class="col-xs-6">
+    <div style="padding-bottom: 20px;" class="row">
+        <!--<div class="col-md-12">-->
             <div class="form-group">
-                <label class="control-label">Software:</label>
-                <input type="text" class="form-control" name="software" value='{{ experiment.software }}'>
+                <label class=" col-md-1 col-md-offset-1 control-label">Software:</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="software" value='{{ experiment.software }}'>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="form-group">
-                <label class="control-label">Version:</label>
-                <input type="text" class="form-control" name="version" value='{{ experiment.version }}'>
+
+            <div style="margin-top: -10px" class="form-group">
+                <label class="col-md-1 col-md-offset-1 control-label">Version:</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="version" value='{{ experiment.version }}'>
+                </div>
             </div>
-        </div>
+
+
+        <!--</div>-->
     </div>
 
-     <div class="row">
+     <div style="padding-bottom: 20px;" class="row">
          <!--<p> Description:</p>-->
         <!--<textarea class=>{{ experiment.description }}</textarea>-->
         <div class="form-group">
-            <label class="control-label">samples</label>
-            <!--<div>-->
-            <select class="form-control" name="filenames">{{ experiment.description}}
-                {% for f in experiment.filenames %}
-                    <option>{{ f }}</option>
-                {% endfor %}
-            </select>
-            <!--</div>-->
+            <label class="col-md-1 col-md-offset-1 control-label">samples</label>
+            <div class="col-md-10">
+                <select class="form-control" name="filenames">{{ experiment.description}}
+                    {% for f in experiment.filenames %}
+                        <option>{{ f }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
     </div>
 
+    <div style="padding-bottom: 20px;" class="row">
+        <div class="col-md-1 col-md-offset-4">
+            <button type='submit' class="btn btn-primary">Save modifications</button>
+        </div>
+
+        <div class="col-md-1 col-md-offset-2">
+            <a href="{{ url_for('features', exp_id=experiment.id, page=1) }}" class="btn btn-primary">Show features</a>
+        </div>
+    </div>
+    </form>
 </div>
 
+<script>
+    $('#show_params').click(function(e) {
+        e.preventDefault();
+        var params = $('#params');
+        if (params.css('display') == 'none')
+            params.fadeIn(500);
+        else {
+            params.fadeOut(500);
+        }
+    });
+
+</script>
 {% endblock %}
