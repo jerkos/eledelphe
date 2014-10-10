@@ -1,0 +1,1 @@
+web: gunicorn eledelphe:app --log-file -
