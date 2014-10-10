@@ -1,1 +1,1 @@
-web: gunicorn eledelphe:app --log-file -
+web: python eledelphe.py
