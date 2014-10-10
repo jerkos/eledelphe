@@ -46,7 +46,7 @@ app.config.update(SECRET_KEY=SECRET_KEY,
                   USERNAME=USERNAME,
                   PASSWORD=PASSWORD)
 
-
+print SECRET_KEY, USERNAME, PASSWORD
 MONGO_URL = os.environ.get('MONGOHQ_URL')
 
 if not MONGO_URL:
