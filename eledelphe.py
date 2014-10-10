@@ -38,9 +38,13 @@ app = Flask(__name__)
 app.url_map.converters['objectid'] = ObjectIDConverter
 app.name = "omicsservices"
 
-app.config.update(SECRET_KEY='development key',
-                  USERNAME='admin',
-                  PASSWORD='default')
+SECRET_KEY = os.environ.get('SECRET_KEY') if os.environ.get('SECRET_KEY') else 'development key'
+USERNAME = os.environ.get('USERNAME') if os.environ.get('USERNAME') else 'admin'
+PASSWORD = os.environ.get('PASSWORD') if os.environ.get('PASSWORD') else 'default'
+
+app.config.update(SECRET_KEY=SECRET_KEY,
+                  USERNAME=USERNAME,
+                  PASSWORD=PASSWORD)
 
 
 MONGO_URL = os.environ.get('MONGOHQ_URL')
@@ -144,13 +148,16 @@ def features(exp_id, page=1):
 # @app.route('/update_experiment/<objectid:exp_id>', methods=)
 
 
-@app.route('/save_experiment', methods=['POST'])
+@app.route('/save_experiment', methods=['GET', 'POST'])
 def save_experiment():
     """
     upload a file and save it using its experiment id
     @return:
     """
-    print "hello"
+    if request.method == 'GET':
+        return render_template('save_experiment.html', login=session['username'])
+
+    #handle post
     organization, title, date, \
     description, software, version = request.form['organization'], request.form['title'], \
                                      request.form['date'], request.form['description'], \
@@ -161,14 +168,17 @@ def save_experiment():
     experiment.software = software
     experiment.version = version
     experiment.save()
-    print 'after save'
+
     file = request.files['parameters']
-    print "file:", file
+
     if file:
         filename = secure_filename(str(experiment.id))
         file.save(op.join(app.config['UPLOAD_FOLDER'], filename))
+        flash("experiments saved with peaklist", "success")
+    else:
+        flash("experiments saved, no peaklist", "success")
 
-    return "<h1>file has been uploaded</h1>"
+    return redirect(url_for('hello_world'))
 
 # @app.route('/show_parameters/<objectid:experiment_id>')
 # def show_parameters(experiment_id):
@@ -184,14 +194,6 @@ def save_experiment():
 #         return abort(404)
 #     text = open(path).read()
 #     return render_template('parameters.html', experiment=experiment, text=text)
-
-
-@app.route('/save_experiment_form')
-def save_experiment_form():
-    """
-    @return: template form to save experiment metadata
-    """
-    return render_template('save_experiment.html', login=session['username'])
 
 @app.route('/show_jobs')
 def show_jobs():
