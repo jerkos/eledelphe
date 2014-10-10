@@ -44,10 +44,11 @@ app.config.update(SECRET_KEY='development key',
 
 
 MONGO_URL = os.environ.get('MONGOHQ_URL')
+
 if not MONGO_URL:
     MONGO_URL = "mongodb://localhost:27017/omicsservices"
 
-app.config['MONGODB_SETTINGS'] = {'host': MONGO_URL}
+app.config['MONGODB_SETTINGS'] = {'db': 'app30576819', 'host': MONGO_URL}
 
 if not op.exists('./uploads'):
     os.mkdir('./uploads')
