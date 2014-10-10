@@ -1,1 +1,1 @@
-web: gunicorn eledelphe:app --log-file - --workers 1
+web: gunicorn eledelphe:app --log-file - --workers 2
