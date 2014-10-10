@@ -37,6 +37,7 @@ class ObjectIDConverter(BaseConverter):
 app = Flask(__name__)
 app.url_map.converters['objectid'] = ObjectIDConverter
 app.name = "omicsservices"
+app.config['DEBUG'] = True
 
 SECRET_KEY = os.environ.get('SECRET_KEY') if os.environ.get('SECRET_KEY') else 'development key'
 USERNAME = os.environ.get('USERNAME_') if os.environ.get('USERNAME_') else 'admin'
