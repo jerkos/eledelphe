@@ -37,11 +37,17 @@ class ObjectIDConverter(BaseConverter):
 app = Flask(__name__)
 app.url_map.converters['objectid'] = ObjectIDConverter
 app.name = "omicsservices"
+
 app.config.update(SECRET_KEY='development key',
                   USERNAME='admin',
                   PASSWORD='default')
 
-app.config['MONGODB_SETTINGS'] = {'db': 'omicsservices'}
+
+MONGO_URL = os.environ.get('MONGOHQ_URL')
+if not MONGO_URL:
+    MONGO_URL = "mongodb://localhost:27017/omicsservices"
+
+app.config['MONGODB_SETTINGS'] = {'host': MONGO_URL}
 
 if not op.exists('./uploads'):
     os.mkdir('./uploads')
@@ -70,6 +76,7 @@ def hello():
             flash('You were successfully logged in', 'success')
             return redirect(url_for('hello_world'))
     return render_template('login.html', error=error)
+
 
 @app.route('/logout', methods=['POST', 'GET'])
 def goodbye():
