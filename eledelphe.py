@@ -39,7 +39,7 @@ app.url_map.converters['objectid'] = ObjectIDConverter
 app.name = "omicsservices"
 
 SECRET_KEY = os.environ.get('SECRET_KEY') if os.environ.get('SECRET_KEY') else 'development key'
-USERNAME = os.environ.get('USERNAME') if os.environ.get('USERNAME') else 'admin'
+USERNAME = os.environ.get('USERNAME_') if os.environ.get('USERNAME_') else 'admin'
 PASSWORD = os.environ.get('PASSWORD') if os.environ.get('PASSWORD') else 'default'
 
 app.config.update(SECRET_KEY=SECRET_KEY,
@@ -52,7 +52,7 @@ MONGO_URL = os.environ.get('MONGOHQ_URL')
 if not MONGO_URL:
     MONGO_URL = "mongodb://localhost:27017/omicsservices"
 
-app.config['MONGODB_SETTINGS'] = {'db': 'app30576819', 'host': MONGO_URL}
+app.config['MONGODB_SETTINGS'] = {'db': 'nottherealdatabasename', 'host': MONGO_URL}
 
 if not op.exists('./uploads'):
     os.mkdir('./uploads')
