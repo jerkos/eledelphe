@@ -1,6 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            <h4 class="modal-title" id="myModalLabel">Delete experiment</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Are you sure ?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="delete_button" type="button" class="btn btn-primary">Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
+
 <div style="margin-left: 200px; width:80%" class="animable-container container">
 
     <h1>{{ experiment.title }} : {{ experiment.experiment_type_id }}</h1><hr style="border: solid 1px lightgrey">
@@ -98,12 +116,16 @@
     </div>
 
     <div style="padding-bottom: 20px;" class="row">
-        <div class="col-md-1 col-md-offset-4">
+        <div class="col-md-1 col-md-offset-2">
             <button type='submit' class="btn btn-primary">Save modifications</button>
         </div>
 
         <div class="col-md-1 col-md-offset-2">
             <a href="{{ url_for('features', exp_id=experiment.id, page=1) }}" class="btn btn-primary">Show features</a>
+        </div>
+
+         <div class="col-md-1 col-md-offset-2">
+            <a href='#' data-toggle="modal" data-target="#basicModal" class="btn btn-primary">Delete</a>
         </div>
     </div>
     </form>
@@ -118,6 +140,19 @@
         else {
             params.fadeOut(500);
         }
+    });
+
+    $('#delete_button').click(function(e) {
+        $('#basicModel').modal('hide');
+        $.ajax({
+            url: "{{ url_for('show_experiment', exp_id=experiment.id)}}",
+            type: 'DELETE',
+            success: function(r) {
+                window.location= "{{ url_for('hello_world') }}";
+                console.log('delete succeeded');
+            }
+        });
+        //$('#basicModal').modal(options);*/
     });
 
 </script>

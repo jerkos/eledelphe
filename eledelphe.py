@@ -86,6 +86,10 @@ def hello():
 
 @app.route('/logout', methods=['POST', 'GET'])
 def goodbye():
+    """
+
+    @return: login url
+    """
     session.pop('logged_in', None)
     return redirect(url_for('hello'))
 
@@ -105,7 +109,7 @@ def hello_world(page):
                            login=session['username'])
 
 
-@app.route('/experiment/<objectid:exp_id>', methods=['GET', 'POST'])
+@app.route('/experiment/<objectid:exp_id>', methods=['GET', 'POST', 'DELETE'])
 def show_experiment(exp_id):
     """ show experiment
     @param exp_id:
@@ -115,15 +119,23 @@ def show_experiment(exp_id):
         flash('fetch experiment id {}'.format(exp_id))
         return render_template('experiment.html', experiment=experiment, login=session['username'])
     # deal the update post
-    organization, description, software, version, parameters = request.form['organization'], \
-                                                               request.form['description'], \
-                                                               request.form['software'], \
-                                                               request.form['version'], \
-                                                               request.form['parameters']
-    MetabolomicsExperiment.objects(id=exp_id).update(set__organization=organization, set__description=description,
-                                         set__software=software, set__version=version, set__parameters=parameters)
-    flash("experiment {} has been updated".format(exp_id), 'success')
-    return redirect(url_for('hello_world'))
+    elif request.method == 'POST':
+        organization, description, software, version, parameters = request.form['organization'], \
+                                                                   request.form['description'], \
+                                                                   request.form['software'], \
+                                                                   request.form['version'], \
+                                                                   request.form['parameters']
+        MetabolomicsExperiment.objects(id=exp_id).update(set__organization=organization, set__description=description,
+                                             set__software=software, set__version=version, set__parameters=parameters)
+        flash("experiment {} has been updated".format(exp_id), 'success')
+        return redirect(url_for('hello_world'))
+    else:
+        #handle delete request
+        print "Deleting data"
+        Experiment.objects(id=exp_id).first().delete()
+        flash("experiment {} has been deleted".format(exp_id), 'success')
+        return ""  #redirect(url_for('hello_world'))
+
 
 @app.route('/features/<objectid:exp_id>/<int:page>', methods=['GET'])
 def features(exp_id, page=1):
