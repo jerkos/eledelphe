@@ -37,6 +37,8 @@ class Annotation(EmbeddedDocument):
     metabolite name with its 2 scores
     """
     annotation = StringField()
+    kegg_id = StringField()
+    hmdb_id = StringField()
     score1 = FloatField()
     score2 = FloatField()
 

@@ -144,17 +144,46 @@ def features(exp_id, page=1):
     :param experiment_id:
     :return:
     """
-    name_met = request.args.get('search')
+    args = request.args
+
+    error = ""
+
+    name_met = args.get('search')
+
+    minmz = args.get('minmz')
+    maxmz = args.get('maxmz')
+
+    if maxmz < minmz:
+        flash("Error maxmz > minmz, swapping", "error")
+        minmz, maxmz = maxmz, minmz
+
+    #have to fetch the experiment
     experiment = Experiment.objects(id=exp_id).first()
-    if name_met is None:
+
+    print "query string", request.query_string
+
+    if not name_met and not minmz and not maxmz:
         print "search is none"
         features = Feature.objects(experiment_id=exp_id).order_by('mass')
-    else:
+
+    elif not name_met and minmz and maxmz:
+        print "DEBUG filter on min max mz"
+        features = Feature.objects(experiment_id=exp_id, mass__gt=minmz, mass__lt=maxmz).order_by('mass')
+
+    elif name_met and not minmz and not maxmz:
         print "DEBUG search {}".format(name_met)
-        features = Feature.objects(experiment_id=exp_id).filter(annotations__annotation__contains=name_met)
+        features = Feature.objects(experiment_id=exp_id).filter(annotations__annotation__contains=name_met).order_by('mass')
+    else:
+        error = "Filter by name or filter by mass over charge not both"
+        features = []
+
     paginator = Pagination(features, page=page, per_page=PER_PAGE)
-    return render_template("features.html", experiment=experiment,
-                           features=paginator.items, pagination=paginator, login=session['username'])
+    return render_template("features.html",
+                           experiment=experiment,
+                           features=paginator.items,
+                           pagination=paginator,
+                           login=session['username'],
+                           error=error)
 
 
 
@@ -176,20 +205,22 @@ def save_experiment():
                                      request.form['date'], request.form['description'], \
                                      request.form['software'], request.form['version']
 
+    parameters = request.form['parameters']
     experiment = MetabolomicsExperiment(organization=organization, title=title, date=date)
     experiment.description = description
     experiment.software = software
     experiment.version = version
+    experiment.parameters = parameters
     experiment.save()
 
-    file = request.files['parameters']
+    #file = request.files['parameters']
 
-    if file:
-        filename = secure_filename(str(experiment.id))
-        file.save(op.join(app.config['UPLOAD_FOLDER'], filename))
-        flash("experiments saved with peaklist", "success")
-    else:
-        flash("experiments saved, no peaklist", "success")
+    # if file:
+    #     filename = secure_filename(str(experiment.id))
+    #     file.save(op.join(app.config['UPLOAD_FOLDER'], filename))
+    #     flash("experiments saved with peaklist", "success")
+    # else:
+    #     flash("experiments saved, no peaklist", "success")
 
     return redirect(url_for('hello_world'))
 

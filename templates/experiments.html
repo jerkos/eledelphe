@@ -4,11 +4,11 @@
 <div style="margin-left:200px; width: 80%;" class="animable-container container">
 <div class="row">
     <h3>Current experiments </h3>
-    <hr style="border: solid 1px">
+    <hr style="border: solid 1px lightgrey">
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-md-12">
         <table style="background-color: white; text-align: center;"
                class="table table-bordered table-stripped table-hover">
             <thead>
@@ -39,10 +39,10 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-md-4">
 
     </div>
-    <div style="text-align:center;" class="col-xs-4">
+    <div style="text-align:center;" class="col-md-4">
         <ul class="pagination pagination-sm">
             {%- for page in pagination.iter_pages() %}
             {% if page %}
@@ -61,7 +61,7 @@
             {% endif %}
         </ul>
     </div>
-    <div class="col-xs-4">
+    <div class="col-md-4">
 
     </div>
 </div>
@@ -69,18 +69,19 @@
 
 <div class="row">
     <h3>Main statistics</h3>
-    <hr style="border: solid 1px">
+    <hr style="border: solid 1px lightgrey">
 </div>
 <div class="row">
-    <div class=" col-lg-4">
+    <div class=" col-md-4">
 
 
-            <div style='width:100%;' class="row">
+            <div style="padding: 0 20px 0 20px" class="row">
+                <!--style='width:100%;'-->
                 <div style=" background-color:#2F80E7; height:100px; text-align:center;
-                border-bottom-left-radius:4px;border-top-left-radius:4px;  " class="col-xs-4">
+                border-bottom-left-radius:4px;border-top-left-radius:4px; " class="col-md-4">
                     <i style='color:white;font-size:3em;padding-top:25px' class="glyphicon glyphicon-briefcase"></i>
                 </div>
-                <div style="background-color:#5D9CEC; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-xs-8">
+                <div style="background-color:#5D9CEC; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-md-8">
                     <div >
                         <strong style="font-size:2em; color:white;">156</strong>
                     </div>
@@ -90,13 +91,13 @@
                 </div>
             </div>
     </div>
-    <div class=" col-lg-4">
+    <div class=" col-md-4">
 
-        <div style='width:100%' class="row">
-                <div style=" background-color:#564AA3; height:100px; text-align:center; border-bottom-left-radius:4px;border-top-left-radius:4px;" class="col-xs-4">
+        <div style="padding: 0 20px 0 20px" class="row">
+                <div style=" background-color:#564AA3; height:100px; text-align:center; border-bottom-left-radius:4px;border-top-left-radius:4px;" class="col-md-4">
                     <i style='color:white;font-size:3em;padding-top:25px' class="glyphicon glyphicon-briefcase"></i>
                 </div>
-                <div style="background-color:#7266BA; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-xs-8">
+                <div style="background-color:#7266BA; height:100px;text-align:left; padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-md-8">
                     <div >
                         <strong style="font-size:2em; color:white;">12</strong>
                     </div>
@@ -106,14 +107,14 @@
                 </div>
         </div>
     </div>
-    <div class=" col-lg-4">
-        <div style='width:100%' class="row">
+    <div class=" col-md-4">
+        <div style="padding: 0 20px 0 20px" class="row">
                 <div style=" background-color:#2B957A; height:100px;
-                text-align:center; border-bottom-left-radius:4px;border-top-left-radius:4px;" class="col-xs-4">
+                text-align:center; border-bottom-left-radius:4px;border-top-left-radius:4px;" class="col-md-4">
                     <i style='color:white;font-size:3em;padding-top:25px' class="glyphicon glyphicon-briefcase"></i>
                 </div>
                 <div style="background-color:#37BC9B; height:100px;text-align:left;
-                padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-xs-8">
+                padding-top:20px;border-bottom-right-radius:4px;border-top-right-radius:4px;" class="col-md-8">
                     <div >
                         <strong style="font-size:2em; color:white;">18562</strong>
                     </div>
@@ -128,7 +129,7 @@
 
 <div style="padding-top: 50px;" class="row">
 
-    <div class="col-lg-4">
+    <div class="col-md-4">
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -184,7 +185,7 @@
 
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3>Best softwares</h3>
@@ -195,7 +196,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-md-4">
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -211,7 +212,7 @@
 </div>
 
 
-    <!--<div id="test_h" class="col-xs-4">-->
+    <!--<div id="test_h" class="col-md-4">-->
     <!--</div>-->
 
 
@@ -219,10 +220,10 @@
 
 <!--<div style="padding-top: 50px;" class="row">-->
 
-    <!--<div id="test_g" class="col-xs-6">-->
+    <!--<div id="test_g" class="col-md-6">-->
     <!--</div>-->
 
-    <!--<div class="col-xs-6">-->
+    <!--<div class="col-md-6">-->
         <!--<div class="panel panel-primary">-->
 
             <!--<div class="panel-heading">-->

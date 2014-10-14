@@ -6,15 +6,42 @@
         <h2>{{ experiment.title }}, {{ experiment.organization }}</h2>
     </div>
 
-    <div style="padding-bottom: 20px;" class="row">
+    {% if error %}
+        <div class="row">
+        <h3 style="color: red">{{error}}</h3>
+        </div>
+    {% endif %}
+
+    <div style="padding: 20px 0 20px 0;" class="row">
             <form action="{{url_for('features', exp_id=experiment.id, page=1)}}" method="GET">
                 <div style="padding-bottom: 20px;" class="form-group">
-                    <div class="col-md-5">
-                        <input  class="float-label form-control" name="search" placeholder="Search">
+                    <div class="col-md-4">
+                        {% if request.args.get('search') %}
+                        <input  class="form-control" name="search" placeholder="Search metabolite name" value="{{request.args.get('search')}}">
+                        {% else %}
+                        <input  class="form-control" name="search" placeholder="Search metabolite name">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-3">
+                        {% if request.args.get('minmz') %}
+                            <input  class="form-control" name="minmz" placeholder="min mz" value="{{request.args.get('minmz')}}">
+                        {% else %}
+                            <input  class="form-control" name="minmz" placeholder="min mz">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-3">
+                        {% if request.args.get('maxmz') %}
+                            <input  class="form-control" name="maxmz" placeholder="max mz" value="{{request.args.get('maxmz')}}">
+                        {% else %}
+                            <input  class="form-control" name="maxmz" placeholder="max mz">
+
+                        {% endif %}
                     </div>
 
                     <div class="col-md-2">
-                        <button class="btn btn-primary">filter</button>
+                        <button style="margin-top: -8px;" class="btn btn-xs btn-primary">filter</button>
                     </div>
                 </div>
             </form>
@@ -23,6 +50,10 @@
     </div>
 
     <div class="row">
+
+        {% if not features %}
+            <h3 style="text-align: center; color: lightgrey">No features according to search criteria</h3>
+        {% else %}
         <table style="background-color: white; text-align: center;"
                class="table table-bordered table-stripped">
              <thead style="background-color: cornflowerblue; color:white">
@@ -35,49 +66,50 @@
              </tr>
              </thead>
             <tbody>
-        {% for feature in features %}
-            <tr>
-                <td>{{ feature.mass  }}</td>
-                <!--style="min-width: 8%; max-width: 8%;"-->
-                <td >{{ feature.rt  }}</td>
-                <!--style="min-width: 8%; max-width: 8%;"-->
-                <td>
-                    <!--<div  style="min-width: 50px; max-width: 50px; min-height: 100px; max-height: 100px;" id='container-{{ loop.index }}' >-->
-                    <!--</div>-->
-                    <span class="inlinesparkline">{{ feature.abundances|map(attribute='abundance')|join(',') }}</span>
-                </td>
-                <td >{{ feature.main_attribution }}</td>
-                <!--style="min-width: 20%; max-width: 20%;"-->
-                <td >
-                    <!--style="min-width: 100px; max-width: 100px;"-->
-                    {% if feature.annotations %}
-                        <table class="table table-bordered">
-                            <!--<thead>-->
-                                <!--<tr>-->
-                                    <!--<th> name </th>-->
-                                    <!--<th> score iso</th>-->
-                                    <!--<th> score network</th>-->
-                                <!--</tr>-->
-                            <!--</thead>-->
-                            <tbody>
-                                {% for annot in feature.annotations %}
-                                    <tr>
-                                        <th><a href="#">{{annot.annotation}}</a></th>
-                                        <th>{{ annot.score1}}</th>
-                                        <th>{{annot.score2}}</th>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
+            {% for feature in features %}
+                <tr>
+                    <td>{{ feature.mass  }}</td>
+                    <!--style="min-width: 8%; max-width: 8%;"-->
+                    <td >{{ feature.rt  }}</td>
+                    <!--style="min-width: 8%; max-width: 8%;"-->
+                    <td>
+                        <!--<div  style="min-width: 50px; max-width: 50px; min-height: 100px; max-height: 100px;" id='container-{{ loop.index }}' >-->
+                        <!--</div>-->
+                        <span class="inlinesparkline">{{ feature.abundances|map(attribute='abundance')|join(',') }}</span>
+                    </td>
+                    <td >{{ feature.main_attribution }}</td>
+                    <!--style="min-width: 20%; max-width: 20%;"-->
+                    <td >
+                        <!--style="min-width: 100px; max-width: 100px;"-->
+                        {% if feature.annotations %}
+                            <table class="table table-bordered">
+                                <!--<thead>-->
+                                    <!--<tr>-->
+                                        <!--<th> name </th>-->
+                                        <!--<th> score iso</th>-->
+                                        <!--<th> score network</th>-->
+                                    <!--</tr>-->
+                                <!--</thead>-->
+                                <tbody>
+                                    {% for annot in feature.annotations %}
+                                        <tr>
+                                            <th><a href="#">{{annot.annotation}}</a></th>
+                                            <th>{{ annot.score1}}</th>
+                                            <th>{{annot.score2}}</th>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
 
-                        </table>
-                    {% else %}
-                        None
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
+                            </table>
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
+        {% endif %}
     </div>
 
     <div class="row" style="text-align: center;">
@@ -85,7 +117,9 @@
             {%- for page in pagination.iter_pages() %}
             {% if page %}
             {% if page != pagination.page %}
-            <li><a href='{{ url_for("features", exp_id=experiment.id, page=page) }}'>{{ page }}</a></li>
+            <!--<li><a href='{{ url_for("features", exp_id=experiment.id, page=page) }}'>{{ page }}</a></li>-->
+            <li><a href='{{ url_for("features", exp_id=experiment.id, page=page, search=request.args.get("search"),
+            minmz=request.args.get("minmz"), maxmz=request.args.get("maxmz")) }}'>{{ page }}</a></li>
             {% else %}
             <li><a><strong>{{ page }}</strong></a></li>
             {% endif %}
@@ -95,7 +129,9 @@
             {%- endfor %}
 
             {% if pagination.has_next %}
-            <li><a href='{{ url_for("features", exp_id=experiment.id, page=pagination.page + 1) }}'>Next &raquo;</a></li>
+            <!--<li><a href='{{ url_for("features", exp_id=experiment.id, page=pagination.page + 1) }}'>Next &raquo;</a></li>-->
+            <li><a href='{{ url_for("features", exp_id=experiment.id, page=pagination.page + 1, search=request.args.get("search"),
+            minmz=request.args.get("minmz"), maxmz=request.args.get("maxmz")) }}'>{{ page }}</a></li>
             {% endif %}
         </ul>
   </div>

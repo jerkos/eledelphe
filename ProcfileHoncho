@@ -1,0 +1,2 @@
+web: gunicorn eledelphe:app --log-file - --workers 1
+celery: python celery_inst.py
