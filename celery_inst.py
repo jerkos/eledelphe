@@ -10,7 +10,7 @@ if not CLOUDAMQP_URL:
 
 celery = Celery('eledelphe',
                 broker=CLOUDAMQP_URL,
-                backend=CLOUDAMQP_URL,
+                backend='amqp',
                 include=['tasks'])
 celery.BROKER_POOL_LIMIT = 1
 
