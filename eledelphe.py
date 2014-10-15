@@ -275,7 +275,7 @@ def launch_experiment():
 
     #INFO on heroku due to ephemere filesystem do not save the newly uploaded file
     #could be saved on Amazon S3 instead
-    tasks.annotate_and_save(f.read(), request.form)#.delay(f.read(), request.form)
+    tasks.annotate_and_save.delay(f.read(), request.form)
 
     return redirect(url_for('hello_world'))
 

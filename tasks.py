@@ -34,7 +34,7 @@ from mzos.results_exporter import ResultsExporter
 
 from celery_inst import celery
 
-#@celery.task
+@celery.task
 def annotate_and_save(filename, arguments):
     """
     data is a dict containing all parameters for launching an annotations
