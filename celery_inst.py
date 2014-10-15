@@ -4,7 +4,7 @@ import os
 
 from celery import Celery
 
-CLOUDAMQP_URL = os.environ.get('CLOUD_AMQP_URL')
+CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL')
 if not CLOUDAMQP_URL:
     CLOUDAMQP_URL = 'amqp://'
 
