@@ -297,7 +297,7 @@ class BayesianInferer(object):
                 counts = counter[m.kegg_id]
                 prob_by_metab_by_feature[f][m.kegg_id] = counts / n_samples  #(counts - n_burning_samples ) / float(n_s)
 
-    def infer_assignment_probabilities(self, n_samples=1000, n_burning_sample=10):
+    def infer_assignment_probabilities(self, n_samples=200, n_burning_sample=10):
         """
         Main function
         :param n_samples:

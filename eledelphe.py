@@ -275,7 +275,13 @@ def launch_experiment():
 
     #INFO on heroku due to ephemere filesystem do not save the newly uploaded file
     #could be saved on Amazon S3 instead
+
+    print "BEFORE TASK"
+
+    #apply async
     tasks.annotate_and_save.delay(f.read(), request.form)
+
+    print "AFTER TASK"
 
     return redirect(url_for('hello_world'))
 
