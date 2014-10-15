@@ -23,7 +23,7 @@ from collections import defaultdict as ddict
 
 from bioservices import KEGGParser  #KeggParser
 
-from mzos.reac import RPrecord
+from reac import RPrecord
 
 
 kegg_parser = KEGGParser(verbose=False)

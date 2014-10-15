@@ -31,7 +31,10 @@ from scipy.stats import norm
 import numpy as np
 
 import reac
+import collections
+
 sys.modules['reac'] = reac
+#sys.modules['collections\r'] = collections
 
 
 def _sample_metabolite(args):  #feature, mz_tol_ppm, probs_by_metab_id, counter):
@@ -108,7 +111,10 @@ class BayesianInferer(object):
         :return:
         """
         with open(op.normcase("mzos/ressources/reaction.reac"), 'rb') as f:
-            reactions = cPickle.load(f)
+            try:
+                reactions = cPickle.load(f)
+            except (ImportError, AttributeError) as e:
+                print repr(e)
         return reactions
 
     def _assign_without_ambiguity(self):

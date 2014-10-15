@@ -22,6 +22,8 @@ from collections import defaultdict as ddict
 from itertools import izip
 import multiprocessing
 from collections import namedtuple
+from zipfile import ZipFile
+
 from feature import Annotation
 from formula import Formula
 
@@ -170,6 +172,12 @@ class DatabaseSearch(IDatabaseSearcher):
         self.exp_design = exp_design
         self.metabolites_by_feature = {}
         self.bank = 'hmdb' if bank not in ['hmdb, kegg'] else bank  #self.exp_design.databases
+
+        #unzip database file  du to heroku filesystem
+        if not op.exists(DatabaseSearch.HMDB_FILE):
+            z = ZipFile(op.normcase('mzos/ressources/hmdb.zip'))
+            z.extract('hmdb.sqlite', path=op.normcase('mzos/ressources/'))
+
         logging.info("Performing database search in {} {}".format(self.bank, 'v3.5'))
 
     def assign_formula(self, features, for_adducts, with_tol_ppm=10.0):

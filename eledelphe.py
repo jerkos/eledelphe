@@ -262,14 +262,20 @@ def launch_experiment():
     #                                  request.form['software'], request.form['version'], request['parameters']
 
     f = request.files['peaklist']
-    print "file:", f
-    if f:
-        filename = secure_filename("".join(['pkl', str(datetime.datetime.now()), '.csv']))
-        f.save(op.join(app.config['UPLOAD_FOLDER'], filename))
-    else:
-        raise WindowsError("Error")
-    print request.form.getlist('adds')
-    tasks.annotate_and_save.delay(op.join(app.config['UPLOAD_FOLDER'], filename), request.form)
+
+    #print "file:", f, type(f)
+    #print f.read()
+    #exit(0)
+    # if f:
+    #     filename = secure_filename("".join(['pkl', str(datetime.datetime.now()), '.csv']))
+    #     f.save(op.join(app.config['UPLOAD_FOLDER'], filename))
+    # else:
+    #     raise WindowsError("Error")
+    # print request.form.getlist('adds')
+
+    #INFO on heroku due to ephemere filesystem do not save the newly uploaded file
+    #could be saved on Amazon S3 instead
+    tasks.annotate_and_save(f.read(), request.form)#.delay(f.read(), request.form)
 
     return redirect(url_for('hello_world'))
 

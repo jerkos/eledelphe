@@ -17,8 +17,11 @@ __email__ = 'marc.dubois@omics-services.com'
 
 import csv
 import logging
-from feature import Peakel
+from cStringIO import StringIO
+
 import numpy as np
+
+from feature import Peakel
 
 
 class PeakListReader(object):
@@ -38,9 +41,13 @@ class PeakListReader(object):
 
     def get_peakels(self):
         """return peakels objects """
-        reader = csv.DictReader(open(self.peaklist_filepath, 'rb'), delimiter="\t")
+        #isinstance(self.peaklist_filepath, StringIO) or \
+        if isinstance(self.peaklist_filepath, str) or isinstance(self.peaklist_filepath, unicode):
+            reader = csv.DictReader(self.peaklist_filepath.splitlines(), delimiter='\t')
+        else:
+            reader = csv.DictReader(open(self.peaklist_filepath, 'rb'), delimiter="\t")
         return [self._to_peakel_obj(row) for row in reader]
-    
+
     def _find_directories(self):
         import os
         curr_dir = os.path.dirname(self.peaklist_filepath)

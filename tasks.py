@@ -34,18 +34,18 @@ from mzos.results_exporter import ResultsExporter
 
 from celery_inst import celery
 
-@celery.task
+#@celery.task
 def annotate_and_save(filename, arguments):
     """
     data is a dict containing all parameters for launching an annotations
     @param data:
     @return:
     """
-    print arguments
+
     if filename is None or not filename:
         raise ValueError("Supply a XCMS peaklist.")
-    if not os.path.isfile(filename):
-        raise ValueError("XCMS peaklist path does not seem to be valid.")
+    # if not os.path.isfile(filename):
+    #     raise ValueError("XCMS peaklist path does not seem to be valid.")
 
     if arguments['polarity'] is None:
         raise ValueError("polarity must be '-1' or '+1.'")
