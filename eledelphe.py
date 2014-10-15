@@ -16,7 +16,7 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
 from model import MetabolomicsExperiment, Experiment, Feature
-import tasks
+import celery_inst
 
 
 class ObjectIDConverter(BaseConverter):
@@ -279,7 +279,7 @@ def launch_experiment():
     print "BEFORE TASK"
 
     #apply async
-    tasks.annotate_and_save.delay(f.read(), request.form)
+    celery_inst.annotate_and_save.delay(f.read(), request.form)
 
     print "AFTER TASK"
 
