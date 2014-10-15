@@ -4,14 +4,12 @@ import os
 
 from celery import Celery
 
-CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL')
-if not CLOUDAMQP_URL:
-    CLOUDAMQP_URL = 'amqp://'
+CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL', 'amqp://')
 
 celery = Celery('eledelphe',
                 broker=CLOUDAMQP_URL,
-                backend='amqp',
-                include=['tasks'])
+                backend='amqp')
+
 celery.BROKER_POOL_LIMIT = 1
 
 # Optional configuration, see the application user guide.
