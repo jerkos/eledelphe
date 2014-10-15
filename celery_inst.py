@@ -6,7 +6,7 @@ from celery import Celery
 
 CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL', 'amqp://')
 
-celery = Celery('eledelphe',
+celery = Celery('celery_inst',
                 broker=CLOUDAMQP_URL,
                 backend='amqp')
 
