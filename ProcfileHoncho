@@ -1,2 +1,2 @@
 web: gunicorn eledelphe:app --log-file - --workers 1
-celery: python celery_inst.py worker --concurrency 1 --maxtasksperchild 100
+celery: python celery_inst.py -A tasks worker --concurrency 1
