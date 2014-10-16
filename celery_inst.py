@@ -20,7 +20,8 @@ CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL', 'amqp://')
 
 celery = Celery('celery_inst',
                 broker=CLOUDAMQP_URL + '?heartbeat=30',
-                backend='amqp')
+                backend='amqp',
+                include=['tasks'])
 
 celery.BROKER_POOL_LIMIT = 1
 celery.BROKER_CONNECTION_TIMEOUT = 10
