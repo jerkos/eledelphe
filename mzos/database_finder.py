@@ -202,7 +202,7 @@ class DatabaseSearch(IDatabaseSearcher):
             #DEBUG CODE
             metabolites = []
             for f in features:
-                metabolites += search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm))
+                metabolites.append(search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm)))
 
             # create Annotation objects
 
