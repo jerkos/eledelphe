@@ -200,13 +200,13 @@ class DatabaseSearch(IDatabaseSearcher):
             # pool.close()
 
             #DEBUG CODE
-            metabs = []
+            metabolites = []
             for f in features:
-                metabs += search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm))
+                metabolites += search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm))
 
             # create Annotation objects
 
-            for f, metabs in izip(features, metabs):
+            for f, metabs in izip(features, metabolites):
                 if not metabs:
                     not_found += 1
                 else:
