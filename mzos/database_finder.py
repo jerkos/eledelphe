@@ -23,6 +23,7 @@ from itertools import izip
 import multiprocessing
 from collections import namedtuple
 from zipfile import ZipFile
+import billiard
 
 from feature import Annotation
 from formula import Formula
@@ -193,7 +194,7 @@ class DatabaseSearch(IDatabaseSearcher):
             formula = Formula.from_str(for_adduct)
             logging.info("searching for adducts: {}".format(str(formula)))
 
-            pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
+            pool = billiard.Pool(processes=billiard.cpu_count())
             args = [(self.HMDB_FILE, f, formula, with_tol_ppm) for f in features]
             metabs = pool.map(search_metabolites_for, args, chunksize=20)
             pool.close()
