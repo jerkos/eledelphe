@@ -17,10 +17,13 @@
 __email__ = 'marc.dubois@omics-services.com'
 
 import logging
+import os
+
+from mongoengine import connect
+
 #from utils import merge
 from feature import Peakel
 from model import MetabolomicsExperiment, Abundance, Annotation, Feature
-from mongoengine import connect
 #from mongo_db import MetabolomicsExperiment, Feature, Annotation, Abundance
 
 
@@ -88,7 +91,8 @@ class ResultsExporter(object):
         """
         logging.info("Start storing in mongo...")
 
-        connect('omicsservices')
+
+        connect('hola', os.environ.get('MONGOHQ_URL', 'omicsservices'))
 
         exp = MetabolomicsExperiment()
         #exp.parameters = "All the xcms file goes here"
