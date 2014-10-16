@@ -91,8 +91,7 @@ class ResultsExporter(object):
         """
         logging.info("Start storing in mongo...")
 
-
-        connect('hola', os.environ.get('MONGOHQ_URL', 'omicsservices'))
+        connect('hola', host=os.environ.get('MONGOHQ_URL', 'omicsservices'))
 
         exp = MetabolomicsExperiment()
         #exp.parameters = "All the xcms file goes here"
