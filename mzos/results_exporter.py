@@ -89,7 +89,7 @@ class ResultsExporter(object):
         :param data
         @return: None
         """
-        logging.info("Start storing in mongo...")
+        logging.info("Saving experiment in mongo db...")
 
         connect('hola', host=os.environ.get('MONGOHQ_URL', 'omicsservices'))
 
