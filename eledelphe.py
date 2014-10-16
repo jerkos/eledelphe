@@ -51,9 +51,9 @@ MONGO_URL = os.environ.get('MONGOHQ_URL', "mongodb://localhost:27017/omicsservic
 
 app.config['MONGODB_SETTINGS'] = {'db': 'nottherealdatabasename', 'host': MONGO_URL}
 
-if not op.exists('./uploads'):
-    os.mkdir('./uploads')
-app.config['UPLOAD_FOLDER'] = './uploads'
+# if not op.exists('./uploads'):
+#     os.mkdir('./uploads')
+# app.config['UPLOAD_FOLDER'] = './uploads'
 
 db = MongoEngine(app)
 
