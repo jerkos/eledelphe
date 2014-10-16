@@ -194,15 +194,15 @@ class DatabaseSearch(IDatabaseSearcher):
             formula = Formula.from_str(for_adduct)
             logging.info("searching for adducts: {}".format(str(formula)))
 
-            pool = billiard.Pool(processes=billiard.cpu_count())
-            args = [(self.HMDB_FILE, f, formula, with_tol_ppm) for f in features]
-            metabs = pool.map(search_metabolites_for, args, chunksize=20)
-            pool.close()
+            # pool = billiard.Pool(processes=billiard.cpu_count())
+            # args = [(self.HMDB_FILE, f, formula, with_tol_ppm) for f in features]
+            # metabs = pool.map(search_metabolites_for, args, chunksize=20)
+            # pool.close()
 
             #DEBUG CODE
-            # metabs = []
-            # for f in features:
-            #     metabs += search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm))
+            metabs = []
+            for f in features:
+                metabs += search_metabolites_for((self.HMDB_FILE, f, formula, with_tol_ppm))
 
             # create Annotation objects
 
