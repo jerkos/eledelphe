@@ -34,13 +34,16 @@ from mzos.results_exporter import ResultsExporter
 
 from celery_inst import celery
 
-@celery.task
-def annotate_and_save(filename, arguments):
+#@celery.task
+
+@celery.task(bind=True)
+def annotate_and_save(self, filename, arguments):
     """
     data is a dict containing all parameters for launching an annotations
     @param data:
     @return:
     """
+    # Empty kwargs
 
     if filename is None or not filename:
         raise ValueError("Supply a XCMS peaklist.")
@@ -62,6 +65,7 @@ def annotate_and_save(filename, arguments):
 
     peakels = PeakListReader(filename, exp_settings).get_peakels()
     logging.info("Peaklist loaded.")
+    self.update_state(state='PROGRESS', meta={'current': 1, 'total': 6})
 
     ##annotation##
     peakels_annotator = PeakelsAnnotator(peakels, exp_settings)
@@ -69,6 +73,7 @@ def annotate_and_save(filename, arguments):
 
     best_monos = peakels_annotator.annotate_()
     logging.info("Monoisotopic found: #{}".format(len(best_monos)))
+    self.update_state(state='PROGRESS', meta={'current': 2, 'total': 6})
 
     ##database finding##
     db_search = DatabaseSearch('hmdb', exp_settings)
@@ -77,6 +82,8 @@ def annotate_and_save(filename, arguments):
     nb_metabs, not_found = db_search.assign_formula(peakels, adducts_l, exp_settings.mz_tol_ppm)
     logging.info("Found #{} metabolites, #{} "
                  "elution peak with no metabolite assignments".format(nb_metabs, not_found))
+    self.update_state(state='PROGRESS', meta={'current': 3, 'total': 6})
+
 
     ##scoring
     #first simplistic
@@ -85,6 +92,8 @@ def annotate_and_save(filename, arguments):
     #populate annotations objects
     model.calculate_score()
     logging.info("Done")
+    self.update_state(state='PROGRESS', meta={'current': 4, 'total': 6})
+
 
     ##scoring 2##
     bi = BayesianInferer(peakels, exp_settings)
@@ -92,7 +101,11 @@ def annotate_and_save(filename, arguments):
     #populate annotations object
     bi.infer_assignment_probabilities()
     logging.info("Finished")
+    self.update_state(state='PROGRESS', meta={'current': 5, 'total': 6})
+
 
     logging.info('Exporting results...')
     exporter = ResultsExporter('', peakels)
     exporter.save_experiment(arguments)
+    self.update_state(state='PROGRESS', meta={'current': 6, 'total': 6})
+

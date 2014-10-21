@@ -5,7 +5,7 @@ from math import ceil
 import os
 import os.path as op
 
-from flask import Flask, render_template, redirect, url_for, request, session, flash, abort
+from flask import Flask, render_template, redirect, url_for, request, session, flash, abort, jsonify
 #from flask.ext.pymongo import PyMongo
 from mongoengine import Document, StringField, DateTimeField, Q
 from flask.ext.mongoengine import MongoEngine, Pagination
@@ -14,10 +14,11 @@ from werkzeug.routing import BaseConverter, ValidationError
 from itsdangerous import base64_encode, base64_decode
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
+from celery.result import AsyncResult
 
 from model import MetabolomicsExperiment, Experiment, Feature
 import tasks
-
+from celery_inst import celery
 
 class ObjectIDConverter(BaseConverter):
     """ Object"""
@@ -56,6 +57,8 @@ app.config['MONGODB_SETTINGS'] = {'db': 'nottherealdatabasename', 'host': MONGO_
 # app.config['UPLOAD_FOLDER'] = './uploads'
 
 db = MongoEngine(app)
+
+tasks_manager = []
 
 
 PER_PAGE = 5
@@ -256,9 +259,13 @@ def launch_experiment():
     # description, software, version, parameters = request.form['organization'], request.form['title'], \
     #                                  request.form['date'], request.form['description'], \
     #                                  request.form['software'], request.form['version'], request['parameters']
-
+    # print "POST method"
+    # print "REQUEST FORM", request.form
+    #print "FILES", request.files.getlist("file")
+    #print request.files
     f = request.files['peaklist']
-    print "got file"
+
+    #print "PEAKLSIT", f
     #print "file:", f, type(f)
     #print f.read()
     #exit(0)
@@ -272,14 +279,44 @@ def launch_experiment():
     #INFO on heroku due to ephemere filesystem do not save the newly uploaded file
     #could be saved on Amazon S3 instead
 
-    print "BEFORE TASK"
-
-    #apply async
-    tasks.annotate_and_save.delay(f.read(), request.form)
-
-    print "AFTER TASK"
-
+    tasks_manager.append(tasks.annotate_and_save.delay(f.read(), request.form))
+    #tasks_manager[r.task_id] = (r, tasks.annotate_and_save)
     return redirect(url_for('hello_world'))
+    #return jsonify(status='ok')
+
+@app.route('/tasks')
+def show_tasks():
+    """
+    @return:
+    """
+    # d = []
+    # for result in tasks_manager:
+    #     if result.state == 'PROGRESS':
+    #         d.append((int(result.result['current'] / float(result.result['total']) * 100.0), result.task_name, False))
+    #     elif result.state == 'FAILED':
+    #         d.append((0, result.task_name, True))
+    #     else:
+    #         d.append((100, result.task_name, False))
+
+    return render_template('show_tasks.html', tasks=tasks_manager, login=session['username'])
+
+@app.route('/task/<task_id>')
+def get_progress(task_id):
+    for task in tasks_manager:
+        if task.task_id == task_id:
+            if task.state == 'PROGRESS':
+                return jsonify(state='PROGRESS', progress=int(task.result['current'] / float(task.result['total']) * 100.0))
+            elif task.state == 'SUCCESS':
+                return jsonify(state='SUCCESS', progress=100)
+    return jsonify(state='FAILED', progress=0)
+
+@app.route('/task/rm/<task_id>')
+def remove_task(task_id):
+    pass
+
+@app.route('/task/rm/all', methods=['POST', 'DELETE'])
+def remove_all_tasks():
+    tasks_manager = []
 
 
 if __name__ == '__main__':

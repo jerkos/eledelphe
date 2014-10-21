@@ -2,7 +2,7 @@ __email__ = 'marc.dubois@omics-services.com'
 
 from pymongo.connection import Connection
 from mongoengine import EmbeddedDocument, FloatField, StringField, Document, \
-    IntField, ListField, EmbeddedDocumentField, ReferenceField, DateTimeField
+    IntField, ListField, EmbeddedDocumentField, ReferenceField, DateTimeField, CASCADE
 from datetime import datetime
 
 
@@ -55,7 +55,7 @@ class Feature(Document):
     """
     Feature class
     """
-    experiment_id = ReferenceField(Experiment)
+    experiment_id = ReferenceField(Experiment, reverse_delete_rule=CASCADE)
     mass = FloatField(required=True)
     rt = FloatField(required=True)
     abundances = ListField(EmbeddedDocumentField(Abundance))
@@ -63,5 +63,3 @@ class Feature(Document):
     annotations = ListField(EmbeddedDocumentField(Annotation))
 
     meta = {'collection': 'features'}
-
-

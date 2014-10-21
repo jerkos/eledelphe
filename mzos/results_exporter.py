@@ -91,7 +91,11 @@ class ResultsExporter(object):
         """
         logging.info("Saving experiment in mongo db...")
 
-        connect('hola', host=os.environ.get('MONGOHQ_URL', 'omicsservices'))
+        mongo = os.environ.get('MONGOHQ_URL')
+        if mongo is not None :
+            connect('hola', host=mongo)
+        else:
+            connect('omicsservices')
 
         exp = MetabolomicsExperiment()
         #exp.parameters = "All the xcms file goes here"

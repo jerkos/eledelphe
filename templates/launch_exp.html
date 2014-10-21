@@ -3,7 +3,10 @@
 
 
 <div style="margin-left: 200px; width: 80%; " class="animable-container container">
-    <form class="row" role="form" method="POST" action="/launch_exp" enctype=multipart/form-data>
+    <div id="loading">
+        <img src="/static/loading.gif" style="position: absolute; top:0; bottom:0; left:0; right:0; visibility:hidden">
+    </div>
+    <form id="upload-form" class="row" role="form" method="POST" action="/launch_exp" enctype=multipart/form-data>
 
         <div class="col-lg-6">
             <h3>Experiments metadata</h3>
@@ -13,13 +16,13 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label" for="organization">Organization:</label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="organization" id="organization">
+                            <input class="form-control" name="organization" id="organization" value="IRSTEA">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3  control-label" for="title">Title:</label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="title" id="title" placeholder="experiment#0">
+                            <input class="form-control" name="title" id="title" placeholder="experiment#0" value="Nucleipark">
                         </div>
                     </div>
                     <div class="form-group">
@@ -31,25 +34,25 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Description:</label>
                         <div class="col-lg-9">
-                            <textarea class="form-control" name="description" placeholder="Metabolomic experiment"></textarea>
+                            <textarea class="form-control" name="description" placeholder="Metabolomic experiment">Metabolomic experiment</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Software:</label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="software" placeholder="XCMS (R package)">
+                            <input class="form-control" name="software" placeholder="XCMS (R package)" value="XCMS">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Version:</label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="version" placeholder="None">
+                            <input class="form-control" name="version" placeholder="None" value="3.18">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Parameters (script):</label>
                         <div class="col-lg-9">
-                            <textarea class="form-control" rows="10" name="parameters"></textarea>
+                            <textarea class="form-control" rows="10" name="parameters">None</textarea>
                         </div>
                     </div>
 
@@ -66,7 +69,8 @@
                     <label class="col-lg-3  control-label">peaklist:</label>
                     <div class="col-lg-9">
                         <input type="text" class="form-control floating-label" placeholder="Browse...">
-                        <input name="peaklist" type="file">
+                        <input id="file-picker" name="peaklist" type="file">
+                        <!--<a id="file-picker" href="javascript:;">Choose</a>-->
                     </div>
                 </div>
 
@@ -120,13 +124,91 @@
 
                 <div class="form-group">
                     <label class="col-lg-4"></label>
-                    <button class="col-lg-5 btn btn-primary" type="submit">Submit</button>
+                    <button id="upload-button" class="col-lg-5 btn btn-primary">Submit</button>
+                     <!--type="submit"-->
                 </div>
 
             </div>
         </div>
     </form>
+
+        <!--<div id="progress" class="row">-->
+            <!--<div id="progress-bar"></div>-->
+        <!--</div>-->
 </div>
+<script>
+    $('#upload-button').on('click', function(){
+        $('loading').css('visibility', 'visible');
+        $('upload-form').submit()
+        $('loading').css('visibility', 'hidden');
+    });
+</script>
+<!--<script src="/static/plupload/plupload.full.min.js"></script>-->
+<!--<script type="text/javascript">-->
+
+    <!--var uploader = new plupload.Uploader({-->
+      <!--runtimes : 'html5,flash,silverlight,html4',-->
+
+      <!--browse_button : 'file-picker', // you can pass in id...-->
+
+
+       <!--url : "/launch_exp",-->
+
+    <!--filters : {-->
+        <!--max_file_size : '50mb'-->
+    <!--},-->
+
+    <!--// Flash settings-->
+    <!--flash_swf_url : '/static/plupload/Moxie.swf',-->
+
+    <!--// Silverlight settings-->
+    <!--silverlight_xap_url : '/static/plupload/Moxie.xap'-->
+    <!--});-->
+
+
+
+<!--//    uploader.bind('FilesAdded', function(up, files) {-->
+<!--//      var html = '';-->
+<!--//      plupload.each(files, function(file) {-->
+<!--//        html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';-->
+<!--//      });-->
+<!--//      document.getElementById('filelist').innerHTML += html;-->
+<!--//    });-->
+
+    <!--uploader.bind('UploadProgress', function(up, file) {-->
+      <!--//document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";-->
+      <!--$('#progress-bar').text( file.percent + "%");-->
+    <!--});-->
+
+<!--//    uploader.bind('Error', function(up, err) {-->
+<!--//      document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;-->
+<!--//    });-->
+
+     <!--$('#upload-button').on('click', function () {-->
+            <!--console.log('uploading started');-->
+            <!--uploader.start();-->
+     <!--});-->
+
+     <!--uploader.bind('UploadComplete', function(up, files){-->
+            <!--console.log('submitting file');-->
+            <!--$('#upload-form').submit();-->
+        <!--});-->
+
+
+    <!--uploader.init();-->
+
+<!--//    $('#upload-form').submit(function(e) {-->
+<!--//-->
+<!--//        //prevent default event not submit yet-->
+<!--//        e.preventDefault();-->
+<!--//-->
+<!--//         uploader.start();-->
+<!--//-->
+<!--////-->
+<!--//    });-->
+
+
+<!--</script>-->
 
 <script>
     var pos_adducts = ["[M+Na+],1,1,-21.98194",
