@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div style="margin-left: 200px; width: 80%; " class="animable-container container">
+    <div class="row">
+        <h1> Launched Tasks <button id="rm_all" class="btn btn-primary">Remove all</button></h1>
+    </div>
+
+     <!--{% for task in tasks %}-->
+         <!--<div class="row">-->
+            <!--<div class="col-md-4">-->
+                <!--<h3>{{task.task_name}}</h3>-->
+            <!--</div>-->
+
+            <!--<div class="col-md-6">-->
+                <!--{% if task.state == 'PROGRESS' %}-->
+                    <!--<p id="task_id_{{task.task_id}}" style="width:{{(task.result['current'] / task.result['total']|float * 100.0)|int}}%; background-color:#2F80E7; color:white; text-align:center">{{(task.result['current'] /task.result['total']|float * 100.0)|int}}%</p>-->
+                <!--{% elif task.state == 'FAILED' %}-->
+                    <!--<p style="color: red"> Task failed</p>-->
+                <!--{% elif task.state == 'SUCCESS' %}-->
+                    <!--<p style="color:green; text-align: center;"><b>Done</b></p>-->
+                <!--{% else %}-->
+                    <!--<p> Unknown error</p>-->
+                <!--{% endif %}-->
+            <!--</div>-->
+
+            <!--<div class="col-md-2">-->
+                <!--<button class="btn btn-danger">Remove</button>-->
+            <!--</div>-->
+         <!--</div>-->
+    <!--{% endfor %}-->
+
+    <table id="my_table" style="background-color: white; text-align: center;" class="table table-bordered table-stripped table-hover">
+        <thead >
+            <tr style="background-color: cornflowerblue; color:white">
+                <th  style="text-align: center;">Task Name</th>
+                <th  style="text-align: center; width:70%;">Task progress</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for task in tasks %}
+             <tr>
+                <th>
+                    <h4>{{task.task_name}}</h4>
+                </th>
+
+                <th>
+                    {% if task.state == 'PROGRESS' %}
+                        <p id="task_id_{{task.task_id}}" style="width:{{(task.result['current'] / task.result['total']|float * 100.0)|int}}%; background-color:#2F80E7; color:white; text-align:center; height:100%">{{(task.result['current'] /task.result['total']|float * 100.0)|int}}%</p>
+                    {% elif task.state == 'FAILED' %}
+                        <p style="color: red; height:100%;"> Task failed</p>
+                    {% elif task.state == 'SUCCESS' %}
+                        <p style="color:green; text-align: center; height:100%;"><b>Done</b></p>
+                    {% else %}
+                        <p> Unknown error</p>
+                    {% endif %}
+                </th>
+
+                <th>
+                    <button class="btn btn-danger">Remove</button>
+                </th>
+             </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</div>
+
+<script>
+    // timout a function polling /task/<id> ?
+    setInterval(function(){
+        {% for task in tasks %}
+            $.ajax({
+                url:'/task/{{task.task_id}}',
+                dataType: 'json',
+                contentType: "application/json",
+                success: function(data) {
+                    console.log(data);
+                    var t = $('#task_id_{{task.task_id}}');
+
+                    if (data['state'] == 'PROGRESS') {
+                        var v = data['progress'] + '%';
+                        t.css('width', v);
+                        t.text(v);
+                    }else if (data['state'] == 'SUCCESS') {
+                        t.css('width', '100%');
+                        t.text('Done');
+                        t.css('color', 'white');
+                    }
+                }
+            });
+        {% endfor %}
+    }, 2000);
+
+    $('#rm_all').on('click', function() {
+        var t = $('#my_table tbody tr');
+        for (var i =0 ; i < t.length; ++i) {
+            t[i].remove();
+        }
+    });
+
+
+</script>
+{% endblock %}
