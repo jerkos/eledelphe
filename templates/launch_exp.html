@@ -124,7 +124,7 @@
 
                 <div class="form-group">
                     <label class="col-lg-4"></label>
-                    <button id="upload-button" class="col-lg-5 btn btn-primary">Submit</button>
+                    <button id="upload-button" class="col-lg-5 btn btn-primary" type="submit">Submit</button>
                      <!--type="submit"-->
                 </div>
 
@@ -137,11 +137,15 @@
         <!--</div>-->
 </div>
 <script>
-    $('#upload-button').on('click', function(){
-        $('loading').css('visibility', 'visible');
-        $('upload-form').submit()
-        $('loading').css('visibility', 'hidden');
+    $('#upload-form').submit(function(e){
+        $('#loading').css('visibility', 'visible');
     });
+
+//    $('#upload-button').on('click', function(){
+//
+//        $('upload-form').submit()
+//        $('loading').css('visibility', 'hidden');
+//    });
 </script>
 <!--<script src="/static/plupload/plupload.full.min.js"></script>-->
 <!--<script type="text/javascript">-->
