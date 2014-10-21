@@ -13,7 +13,7 @@ celery = Celery('celery_inst',
                 broker=CLOUDAMQP_URL,
                 include=['tasks'])
 
-# celery.BROKER_POOL_LIMIT = 1
+celery.BROKER_POOL_LIMIT = 1
 # celery.BROKER_CONNECTION_TIMEOUT = 10
 
 # Optional configuration, see the application user guide.
