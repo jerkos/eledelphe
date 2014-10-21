@@ -1,2 +1,2 @@
-web: gunicorn eledelphe:app --log-file - --workers 1 --timeout 120
+web: gunicorn eledelphe:app --log-file - --workers 1 --timeout 200
 celery: python celery_inst.py worker --concurrency 1
